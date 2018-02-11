@@ -27,8 +27,11 @@
     "husky": "~0.14.0",
     "jsdom": "~11.2.0",
     "jsdom-global": "~3.0.0",
+    "moxios": "^0.4.0",
     "react-test-renderer": "~15.6.0",
-    "velocity": "~0.7.0"
+    "velocity": "~0.7.0",
+    "sinon": "^4.3.0"
+
   },
   "dependencies": {
     "axios": "~0.16.0",

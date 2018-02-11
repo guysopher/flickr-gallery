@@ -1,4 +1,7 @@
 {
   "app.title": "Flickr Images Gallery",
-  "app.intro": "Get started here: https://github.com/wix-private/wix-js-stack"
+  "app.rotate": "rotate image right",
+  "app.delete": "delete image from the list",
+  "app.expand": "view large image"
+
 }

@@ -1,32 +1,35 @@
 import 'jsdom-global/register';
 import React from 'react';
+import {shallow} from 'enzyme';
 import {expect} from 'chai';
-import {mount} from 'enzyme';
-import i18next from 'i18next';
-import {I18nextProvider} from 'react-i18next';
-import App from './App';
-import translation from '../../assets/locale/messages_en.json';
-
-const i18nData = {
-  lng: 'en',
-  keySeparator: '$',
-  resources: {
-    en: {translation}
-  }
-};
+import App from './App.js';
 
 describe('App', () => {
   let wrapper;
 
-  afterEach(() => wrapper.detach());
-
-  it('renders a title correctly', () => {
-    wrapper = mount(
-      <I18nextProvider i18n={i18next.init(i18nData)}>
-        <App/>
-      </I18nextProvider>,
+  beforeEach(() => {
+    wrapper = shallow(
+      <App t={() => 'test'}/>,
       {attachTo: document.createElement('div')}
     );
+  });
+
+  // afterEach(() => wrapper.detach());
+
+  it('renders a title correctly', () => {
     expect(wrapper.find('h2').length).to.eq(1);
+  });
+
+  it('renders the search input correctly', () => {
+    expect(wrapper.find('input').length).to.eq(1);
+  });
+
+  it('sets the tag correctly', done => {
+    wrapper.setState({
+      tag: 'test1'
+    }, () => {
+      expect(wrapper.find('input').prop('value')).to.eq('test1');
+      done();
+    });
   });
 });

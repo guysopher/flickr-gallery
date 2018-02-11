@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {translate} from 'react-i18next';
 import s from './Gallery.scss';
 import axios from 'axios';
 import Image from '../Image';
@@ -14,7 +13,8 @@ class Gallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      galleryWidth: document.body.clientWidth
     };
   }
 
@@ -34,7 +34,6 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          // console.log(res.photos.photo);
           this.setState({images: res.photos.photo});
         }
       });
@@ -42,6 +41,9 @@ class Gallery extends React.Component {
 
   componentDidMount() {
     this.getImages(this.props.tag);
+    this.setState({
+      galleryWidth: document.body.clientWidth
+    });
   }
 
   componentWillReceiveProps(props) {
@@ -49,16 +51,14 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
-
     return (
       <div className={s.root}>
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
         })}
       </div>
     );
   }
 }
 
-export default translate(null, {wait: true})(Gallery);
+export default Gallery;

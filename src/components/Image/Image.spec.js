@@ -1,32 +1,42 @@
-// import 'jsdom-global/register';
-// import React from 'react';
-// import {expect} from 'chai';
-// import {mount} from 'enzyme';
-// import i18next from 'i18next';
-// import {I18nextProvider} from 'react-i18next';
-// // import App from './App';
-// import translation from '../../assets/locale/messages_en.json';
+import 'jsdom-global/register';
+import React from 'react';
+import {shallow} from 'enzyme';
+import sinon from 'sinon';
+import {expect} from 'chai';
+import Image from './Image.js';
 
-// const i18nData = {
-//   lng: 'en',
-//   keySeparator: '$',
-//   resources: {
-//     en: {translation}
-//   }
-// };
+describe('Image', () => {
 
-// describe('App', () => {
-//   let wrapper;
+  const sampleImage = {id: '28420720169', owner: '59717246@N05', secret: 'd460443ecb', server: '4722', farm: 5};
 
-//   afterEach(() => wrapper.detach());
+  let wrapper;
+  const galleryWidth = 1111;
 
-//   it('renders a title correctly', () => {
-//     wrapper = mount(
-//       <I18nextProvider i18n={i18next.init(i18nData)}>
-//         <App/>
-//       </I18nextProvider>,
-//       {attachTo: document.createElement('div')}
-//     );
-//     expect(wrapper.find('h2').length).to.eq(1);
-//   });
-// });
+  const mountImage = () => {
+    return shallow(
+      <Image t={() => 'test'} dto={sampleImage} galleryWidth={galleryWidth}/>,
+      {lifecycleExperimental: true, attachTo: document.createElement('div')}
+    );
+  };
+
+  beforeEach(() => {
+    wrapper = mountImage();
+  });
+
+  it('render 3 icons on each image', () => {
+    expect(wrapper.find('FontAwesome').length).to.equal(3);
+  });
+
+  it('calc image size on mount', () => {
+    const spy = sinon.spy(Image.prototype, 'calcImageSize');
+    wrapper = mountImage();
+    expect(spy.called).to.be.true;
+  });
+
+  it('calculate image size correctly', () => {
+    const imageSize = wrapper.state().size;
+    const remainder = galleryWidth % imageSize;
+    expect(remainder).to.be.lessThan(1);
+  });
+
+});

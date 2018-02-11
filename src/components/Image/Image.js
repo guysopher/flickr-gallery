@@ -7,7 +7,8 @@ import FontAwesome from 'react-fontawesome';
 class Image extends React.Component {
   static propTypes = {
     t: PropTypes.func,
-    dto: PropTypes.object
+    dto: PropTypes.object,
+    galleryWidth: PropTypes.number
   };
 
   constructor(props) {
@@ -19,9 +20,10 @@ class Image extends React.Component {
   }
 
   calcImageSize() {
+    const {galleryWidth} = this.props;
     const targetSize = 200;
-    const imagesPerRow = Math.round(window.innerWidth / targetSize);
-    const size = (window.innerWidth / imagesPerRow);
+    const imagesPerRow = Math.round(galleryWidth / targetSize);
+    const size = (galleryWidth / imagesPerRow);
     this.setState({
       size
     });
@@ -48,13 +50,13 @@ class Image extends React.Component {
         }}
         >
         <div>
-          <FontAwesome className={s.icon} name="sync-alt"/>
-          <FontAwesome className={s.icon} name="trash-alt"/>
-          <FontAwesome className={s.icon} name="expand"/>
+          <FontAwesome className={s.icon} name="sync-alt" title={t('app.rotate')}/>
+          <FontAwesome className={s.icon} name="trash-alt" title={t('app.delete')}/>
+          <FontAwesome className={s.icon} name="expand" title={t('app.expand')}/>
         </div>
       </div>
     );
   }
 }
 
-export default translate(null, {wait: true})(Image);
+export default Image;

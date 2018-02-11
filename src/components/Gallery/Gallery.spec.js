@@ -1,32 +1,72 @@
-// import 'jsdom-global/register';
-// import React from 'react';
-// import {expect} from 'chai';
-// import {mount} from 'enzyme';
-// import i18next from 'i18next';
-// import {I18nextProvider} from 'react-i18next';
-// import Gallery from './Gallery';
-// import translation from '../../assets/locale/messages_en.json';
+import 'jsdom-global/register';
+import React from 'react';
+import {shallow} from 'enzyme';
+import {expect} from 'chai';
+import moxios from 'moxios';
+import Gallery from './Gallery.js';
 
-// const i18nData = {
-//   lng: 'en',
-//   keySeparator: '$',
-//   resources: {
-//     en: {translation}
-//   }
-// };
+describe('Gallery', () => {
 
-// describe('Gallery', () => {
-//   let wrapper;
+  const initialImages = [
+    {id: '28420720169', owner: '59717246@N05', secret: 'd460443ecb', server: '4722', farm: 5},
+    {id: '39489067804', owner: '132444237@N06', secret: 'befff859cf', server: '4658', farm: 5},
+    {id: '40167481242', owner: '76670355@N04', secret: '32eefbdbaa', server: '4743', farm: 5},
+    {id: '39488925224', owner: '31479578@N03', secret: '50ef68484e', server: '4695', farm: 5},
+    {id: '28420574019', owner: '129547346@N08', secret: '1299bb8029', server: '4712', farm: 5},
+    {id: '39302267095', owner: '137639620@N02', secret: 'b891c7d131', server: '4711', farm: 5},
+    {id: '28420470529', owner: '150051933@N05', secret: '0be4664473', server: '4603', farm: 5},
+    {id: '26327535078', owner: '51483961@N03', secret: '5f30961f45', server: '4702', farm: 5},
+    {id: '40166902122', owner: '150995138@N06', secret: '2b46fdb817', server: '4716', farm: 5},
+    {id: '39301783895', owner: '156204685@N03', secret: '475b6645b9', server: '4761', farm: 5},
+    {id: '39301758945', owner: '28549294@N05', secret: 'e6ccd03a1b', server: '4719', farm: 5}
+  ];
 
-//   afterEach(() => wrapper.detach());
+  const nextImages = [
+    {id: '28420720169', owner: '59717246@N05', secret: 'd460443ecb', server: '4722', farm: 5},
+    {id: '39489067804', owner: '132444237@N06', secret: 'befff859cf', server: '4658', farm: 5},
+    {id: '26327535078', owner: '51483961@N03', secret: '5f30961f45', server: '4702', farm: 5},
+    {id: '40166902122', owner: '150995138@N06', secret: '2b46fdb817', server: '4716', farm: 5},
+    {id: '39301783895', owner: '156204685@N03', secret: '475b6645b9', server: '4761', farm: 5},
+    {id: '39301758945', owner: '28549294@N05', secret: 'e6ccd03a1b', server: '4719', farm: 5}
+  ];
 
-//   // it('renders a title correctly', () => {
-//   //   wrapper = mount(
-//   //     <I18nextProvider i18n={i18next.init(i18nData)}>
-//   //       <Gallery/>
-//   //     </I18nextProvider>,
-//   //     {attachTo: document.createElement('div')}
-//   //   );
-//   //   expect(wrapper.find('h2').length).to.eq(1);
-//   // });
-// });
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(
+      <Gallery t={() => 'test'}/>,
+      {attachTo: document.createElement('div')}
+    );
+  });
+
+  it('renders all images on the state', done => {
+    wrapper.setState({
+      images: initialImages
+    }, () => {
+      expect(wrapper.children().length).to.eq(initialImages.length);
+      done();
+    });
+  });
+
+  it('get new images on every tag change', done => {
+    moxios.install();
+    wrapper.setProps({tag: 'test2'});
+
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 200,
+        response: {
+          photos: {
+            photo: nextImages
+          }
+        }
+      }).then(() => {
+        expect(wrapper.children().length).to.eq(nextImages.length);
+        done();
+        moxios.uninstall();
+      });
+    });
+
+  });
+});
