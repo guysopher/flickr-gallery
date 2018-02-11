@@ -50,8 +50,6 @@ describe('Gallery', () => {
 
   it('get new images on every tag change', done => {
     moxios.install();
-    wrapper.setProps({tag: 'test2'});
-
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -67,6 +65,7 @@ describe('Gallery', () => {
         moxios.uninstall();
       });
     });
+    wrapper.setProps({tag: 'test2'});
 
   });
 });
