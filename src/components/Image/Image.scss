@@ -40,11 +40,27 @@
     cursor: pointer;
     padding: 12px;
     margin: 3px;
-
+    
     &:hover {
-      color: white;
-      border-color: white;
+        color: white;
+        border-color: white;
     }
   }
-}
 
+  .image-icon-saved {
+    font-size: 20px;
+    vertical-align: middle;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 12px;
+    margin: 3px;
+    border: 1px solid rgb(62, 154, 240);
+    color: rgb(62, 154, 240);
+
+    &:hover {
+      color: rgb(109, 197, 255);
+      border-color: rgb(109, 197, 255);
+    }
+  }
+  
+}
