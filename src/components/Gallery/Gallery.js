@@ -56,11 +56,22 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  handleDelete(index) {
+    this.setState((prevState) => ({
+      images: prevState.images.filter((_, i) => i !== index)
+    }));
+  }
+
   render() {
     return (
       <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+        {this.state.images.map((dto,index) => {
+          return <Image 
+                  key={'image-' + dto.id} 
+                  dto={dto}
+                  galleryWidth={this.state.galleryWidth} 
+                  onDeleteClick= {() => this.handleDelete(index)}
+                 />;
         })}
       </div>
     );

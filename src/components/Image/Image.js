@@ -13,12 +13,13 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      isSaved: false
     };
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props;
+    const {galleryWidth} = this.props.galleryWidth;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -46,9 +47,30 @@ class Image extends React.Component {
         }}
         >
         <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <FontAwesome 
+            className="image-icon" 
+            name="sync-alt" 
+            title="rotate"
+          />
+          <FontAwesome 
+            className="image-icon" 
+            name="trash-alt" 
+            title="delete"
+            onClick= {() => this.props.onDeleteClick()}
+          />
+          <FontAwesome 
+            className="image-icon" 
+            name="expand" 
+            title="expand"
+          />
+          <FontAwesome 
+            className= {(this.state.isSaved) ? "image-icon-saved" : "image-icon"}
+            name="heart" 
+            title="save"
+            onClick= {() => this.setState({
+              isSaved: !this.state.isSaved
+            })}
+          />
         </div>
       </div>
     );
