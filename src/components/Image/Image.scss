@@ -1,4 +1,7 @@
+
 .image-root {
+  position: relative;
+  overflow: hidden;
   background-size: cover;
   background-position: center center;
   display: inline-block;
@@ -6,6 +9,7 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
+  transform: rotate(0deg);
 
   > div {
     visibility: hidden;
@@ -47,4 +51,5 @@
     }
   }
 }
+
 
