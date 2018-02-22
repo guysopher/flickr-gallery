@@ -13,7 +13,8 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      rotation: 0,
     };
   }
 
@@ -31,6 +32,16 @@ class Image extends React.Component {
     this.calcImageSize();
   }
 
+  rotateImg90deg() {
+    let newRotation = this.state.rotation + 90;
+    if(newRotation >= 360){
+      newRotation =- 360;
+    }
+    this.setState({
+      rotation: newRotation,
+    })
+  }
+
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
@@ -42,11 +53,16 @@ class Image extends React.Component {
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          height: this.state.size + 'px',
+          transform: `rotate(${this.state.rotation}deg)`
         }}
         >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
+        <div
+          className="icons-container"
+          style={{
+            transform: `rotate(${this.state.rotation * -1}deg)`
+        }}>
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={() => this.rotateImg90deg()}/>
           <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={() => this.props.deleteImage(this.props.dto.id)}/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
