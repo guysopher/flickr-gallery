@@ -12,14 +12,18 @@ class Image extends React.Component {
   constructor(props) {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
+	this.handleRotate = this.handleRotate.bind(this);
+	this.urlFromDto = this.urlFromDto.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+	  rotateDeg: 0,
+	  expand: false
     };
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props;
-    const targetSize = 200;
+    const {galleryWidth} = this.props.galleryWidth;
+    const targetSize = this.state.size;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
     this.setState({
@@ -30,25 +34,43 @@ class Image extends React.Component {
   componentDidMount() {
     this.calcImageSize();
   }
+  
 
-  urlFromDto(dto) {
+   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
+  
+  /*wanted to do an animation but I am a web development noob!!... react virgin */
+  handleRotate() {
+	  const newDeg = (this.state.rotateDeg + 90) === 360 ? 0 : this.state.rotateDeg + 90 ;
+	  
+	this.setState({
+		rotateDeg: newDeg
+	});
+	const img = this.refs.image;
+	img.style.transform = img.style.transform.replace(/[0-9]+/,newDeg);
 
+  }
+  
+
+  /* added style to button div as to keep buttons aligned when rotating, used lightbox package to expand images */
   render() {
+	  const clsName = (this.state.rotate) ? 'rotate' : 'image-root';
+	  const balanceRotation = `rotate(${this.state.rotateDeg * -1}deg)`;
     return (
       <div
-        className="image-root"
+        className= {clsName}
+		ref= {'image'}
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
-        }}
-        >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          height: this.state.size + 'px',
+		  transform: 'rotate(0deg)'
+        }}>
+        <div style={{transform: balanceRotation}}>
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.handleRotate} />
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={() => this.props.sendToDelete(this.props.dto.id)}/>
+          <FontAwesome className="image-icon" name="expand" title="expand" onClick={() => this.props.sendToExpand(this.props.dto)}/>
         </div>
       </div>
     );
