@@ -6,7 +6,8 @@ import './Gallery.scss';
 
 class Gallery extends React.Component {
   static propTypes = {
-    tag: PropTypes.string
+    tag: PropTypes.string,
+    Myfunc: PropTypes.func
   };
 
   constructor(props) {
@@ -58,9 +59,9 @@ class Gallery extends React.Component {
 
   render() {
     return (
-      <div className="gallery-root">
+      <div id="gallery" className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image Myfunc={this.props.Myfunc} key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} />;
         })}
       </div>
     );

@@ -3,18 +3,32 @@ import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
 
+
+
+
+
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
-    galleryWidth: PropTypes.number
+    galleryWidth: PropTypes.number,
+    Myfunc: PropTypes.func
+  
+    
   };
 
   constructor(props) {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      angle: 0
+    
     };
+    this.turnImage = this.turnImage.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
+    this.expendImage = this.expendImage.bind(this);
+    
+    
   }
 
   calcImageSize() {
@@ -24,6 +38,7 @@ class Image extends React.Component {
     const size = (galleryWidth / imagesPerRow);
     this.setState({
       size
+      
     });
   }
 
@@ -32,23 +47,52 @@ class Image extends React.Component {
   }
 
   urlFromDto(dto) {
+   
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+
+
+  turnImage() {
+    this.state.angle = (this.state.angle + 90) % 360;
+    var temp = document.getElementById(this.props.dto.id);
+    temp.childNodes.item(0).style.transform = 'rotate(' + this.state.angle.toString() + 'deg)';
+  }
+
+  deleteImage() {
+
+    var temp = document.getElementById(this.props.dto.id);
+    temp.style.display = 'none';
+   
+    
+  }
+
+
+
+  expendImage() {
+    //var temp = document.getElementById(this.props.dto.id);
+    this.props.Myfunc(this.props.dto.id);
+    
+
+
+  }
   render() {
+
+ 
+
     return (
       <div
-        className="image-root"
-        style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+        id={this.props.dto.id} className="image-root">
+        
+        <img src={this.urlFromDto(this.props.dto)} style={{
           width: this.state.size + 'px',
           height: this.state.size + 'px'
-        }}
-        >
+        }} />
+        
         <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <FontAwesome onClick={this.turnImage} className="image-icon" name="sync-alt" title="rotate"/>
+          <FontAwesome onClick={this.deleteImage} className="image-icon" name="trash-alt" title="delete" />
+          <FontAwesome onClick={this.expendImage} className="image-icon" name="expand" title="expand" />
         </div>
       </div>
     );
