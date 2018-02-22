@@ -45,6 +45,16 @@ class Gallery extends React.Component {
       });
   }
 
+  deleteImage(imgId) {
+    const imagesArray = this.state.images;
+    imagesArray.map(function(img, index) {
+      if(imgId == img.id) {
+        return imagesArray.splice(index, 1);
+      }
+    });
+    this.setState({images: imagesArray});
+  }
+
   componentDidMount() {
     this.getImages(this.props.tag);
     this.setState({
@@ -60,7 +70,7 @@ class Gallery extends React.Component {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} deleteImage={this.deleteImage.bind(this)} galleryWidth={this.state.galleryWidth}/>;
         })}
       </div>
     );
