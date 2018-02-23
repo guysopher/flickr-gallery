@@ -1,12 +1,16 @@
 .image-root {
   background-size: cover;
   background-position: center center;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
   position: relative;
-  border: 1px solid white;
- 
+  border: 3px solid black;
+  overflow: hidden;
+  display: flex;
+  box-sizing: border-box;
+  
+
+
+
+
 
   > div {
     visibility: hidden;
@@ -26,6 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    align-content: flex-start;
   }
 
 
@@ -42,9 +47,9 @@
     cursor: pointer;
     padding: 12px;
     margin: 3px;
-   
-    
-    
+
+
+
 
     &:hover {
       color: white;
@@ -52,5 +57,3 @@
     }
   }
 }
-
-

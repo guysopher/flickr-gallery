@@ -1,6 +1,9 @@
 body, html {
-  padding: 0;
-  margin: 0;
+
+ display:flex;
+ justify-content:center;
+
+ 
 }
 
 .app-root {
@@ -13,6 +16,7 @@ body, html {
   padding: 10px;
   color: white;
   font-size: 20pt;
+  
 }
 
 .app-input {
@@ -67,6 +71,6 @@ body, html {
 }
 .frot-image {
   height: 100%;
-  width: 40%;
+  width: 30%;
   
 }

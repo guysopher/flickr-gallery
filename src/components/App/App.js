@@ -32,8 +32,11 @@ class App extends React.Component {
     var Imcmp = document.getElementById(image_com_to_show);
     var img = document.getElementById('imshow');
     var slider = document.getElementById('ImageSlider');
-    
-    img.src = Imcmp.children.item(0).src;
+
+
+    var lenUrl = Imcmp.style.backgroundImage.length - 2;
+    img.src = Imcmp.style.backgroundImage.substring(5, lenUrl);
+
     slider.style.display = 'block';
     this.state.frontImage = Imcmp;
   }
@@ -44,8 +47,11 @@ class App extends React.Component {
 
     var front = document.getElementById('imshow');
     var slider = document.getElementById('ImageSlider');
+
     var nextImage = this.state.frontImage.nextElementSibling;
-    front.src = nextImage.children.item(0).src;
+    var lenUrl = nextImage.style.backgroundImage.length - 2;
+
+    front.src = nextImage.style.backgroundImage.substring(5, lenUrl);
     this.state.frontImage = nextImage;
 
 
@@ -55,9 +61,15 @@ class App extends React.Component {
 
     var front = document.getElementById('imshow');
     var slider = document.getElementById('ImageSlider');
+
+
     var prevImage = this.state.frontImage.previousElementSibling;
-    front.src = prevImage.children.item(0).src;
+    var lenUrl = prevImage.style.backgroundImage.length - 2;
+
+    front.src = prevImage.style.backgroundImage.substring(5, lenUrl);
     this.state.frontImage = prevImage;
+
+
 
 
 
