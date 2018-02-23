@@ -37,6 +37,10 @@ body, html {
     color: white;
     border-color: white;
   }
+
+  &:active { // color of button when clicking
+    color: rgb(219, 219, 219);
+  }
 }
 
 /*
@@ -52,4 +56,9 @@ body, html {
     color: rgb(109, 197, 255);
     border-color: rgb(109, 197, 255);
   }
+
+  &:active { // color of button when clicking
+    color: rgb(102, 185, 240);
+  }
+
 }
