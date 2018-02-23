@@ -1,7 +1,7 @@
 .image-root {
   background-size: cover;
   background-position: center center;
-  display: inline-block;
+  display: inline-block; // check if can be deleted
   vertical-align: top;
   box-sizing: border-box;
   position: relative;
@@ -39,7 +39,7 @@
     border-radius: 5px;
     cursor: pointer;
     padding: 12px;
-    margin: 3px;
+    margin: 2px;
     
     &:hover {
         color: white;
@@ -47,13 +47,13 @@
     }
   }
 
-  .image-icon-saved {
-    font-size: 20px;
-    vertical-align: middle;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 12px;
-    margin: 3px;
+  /*
+   * Class for an active 'favorite' button.
+   * This class inherits the "image-icon" class (to prevent repetitive code).
+   * An active save button is blue-coloured and light-blue-coloured when hovering.
+   */
+  .image-icon-favorited {
+    @extend .image-icon;
     border: 1px solid rgb(62, 154, 240);
     color: rgb(62, 154, 240);
 
@@ -63,4 +63,29 @@
     }
   }
   
+}
+
+/*
+ * Classes for rotated images. 
+ * Each class inherits the "image-root" class (to prevent repetitive code).
+ * Images are transformed accordingly and the part that is activated while hovering 
+ * is rotated back to the original degrees.
+ */ 
+.image-root-rotated90 {
+  @extend .image-root;
+  > div {
+    transform: rotate(-90deg);
+  }
+}
+.image-root-rotated180 {
+  @extend .image-root;
+  > div {
+    transform: rotate(-180deg);
+  }
+}
+.image-root-rotated270 {
+  @extend .image-root;
+  > div {
+    transform: rotate(90deg);
+  }
 }

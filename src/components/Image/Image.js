@@ -6,6 +6,7 @@ import './Image.scss';
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
+    showFavorites: PropTypes.bool,
     galleryWidth: PropTypes.number
   };
 
@@ -14,6 +15,7 @@ class Image extends React.Component {
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200,
+      rotation: 0, // degrees to be rotated
       isSaved: false
     };
   }
@@ -37,13 +39,16 @@ class Image extends React.Component {
   }
 
   render() {
+    const rotation = this.state.rotation;
     return (
       <div
-        className="image-root"
+        className= {rotation ? `image-root-rotated${rotation}` : "image-root"}
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          height: this.state.size + 'px',
+          display: ((!this.state.isSaved) && this.props.showFavorites) ? 'none' : 'inline-block',
+          transform: `rotate(${rotation}deg)`
         }}
         >
         <div>
@@ -51,6 +56,9 @@ class Image extends React.Component {
             className="image-icon" 
             name="sync-alt" 
             title="rotate"
+            onClick= {() => this.setState({ // rotation by 90 degrees, rotation is ranged from 0 to 360 (excluded)
+              rotation: (rotation + 90) % 360
+            })}
           />
           <FontAwesome 
             className="image-icon" 
@@ -64,9 +72,9 @@ class Image extends React.Component {
             title="expand"
           />
           <FontAwesome 
-            className= {(this.state.isSaved) ? "image-icon-saved" : "image-icon"}
+            className= {(this.state.isSaved) ? "image-icon-favorited" : "image-icon"}
             name="heart" 
-            title="save"
+            title="favorite"
             onClick= {() => this.setState({
               isSaved: !this.state.isSaved
             })}
