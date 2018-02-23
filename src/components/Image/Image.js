@@ -17,7 +17,7 @@ class Image extends React.Component {
     this.state = {
       size: 200,
       rotation: 0, // degrees to be rotated
-      isSaved: false
+      isFaved: false
     };
   }
 
@@ -37,10 +37,10 @@ class Image extends React.Component {
 
   componentWillReceiveProps(props) {
     // if images will receive a true resetGallery prop then 
-    // the save button and rotation are reset in all images
+    // the 'favorite' button and rotation are reset in all images
     if (props.resetGallery){
       this.setState({
-        isSaved: false, // if gallery is reset, then all images are not favorited anymore
+        isFaved: false, // if gallery is reset, then all images are not favorited anymore
         rotation: 0 // images are not rotated after reset
       });
     }
@@ -48,6 +48,11 @@ class Image extends React.Component {
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
+  }
+
+  showImage() {
+    // show image only if 'show favorites' button is not active or if it's active and the image is favorited
+    return (!this.props.showFavorites || (this.props.showFavorites && this.state.isFaved));
   }
 
   render() {
@@ -59,7 +64,7 @@ class Image extends React.Component {
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
           height: this.state.size + 'px',
-          display: ((!this.state.isSaved) && this.props.showFavorites) ? 'none' : 'inline-block',
+          display: this.showImage() ? 'inline-block' : 'none',
           transform: `rotate(${rotation}deg)`
         }}
         >
@@ -84,11 +89,11 @@ class Image extends React.Component {
             title="expand"
           />
           <FontAwesome 
-            className= {(this.state.isSaved) ? "image-icon-favorited" : "image-icon"}
+            className= {(this.state.isFaved) ? "image-icon-favorited" : "image-icon"}
             name="heart" 
             title="favorite"
             onClick= {() => this.setState({
-              isSaved: !this.state.isSaved
+              isFaved: !this.state.isFaved
             })}
           />
         </div>
