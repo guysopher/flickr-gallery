@@ -24,3 +24,32 @@ body, html {
   width: 400px;
   margin-bottom: 30px;
 }
+
+.app-icon {
+  font-size: 34px;
+  vertical-align: middle;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 14px;
+  
+  &:hover {
+    color: white;
+    border-color: white;
+  }
+}
+
+/*
+ * Class for an active 'show favorites' button.
+ * This class inherits the "image-icon" class (to prevent repetitive code).
+ * An active save button is blue-coloured and light-blue-coloured when hovering.
+ */
+.app-icon-fav-active {
+  @extend .app-icon;
+  color: rgb(62, 154, 240);
+
+  &:hover {
+    color: rgb(109, 197, 255);
+    border-color: rgb(109, 197, 255);
+  }
+}

@@ -6,7 +6,8 @@ import './Gallery.scss';
 
 class Gallery extends React.Component {
   static propTypes = {
-    tag: PropTypes.string
+    tag: PropTypes.string,
+    showFavorites: PropTypes.bool
   };
 
   constructor(props) {
@@ -53,7 +54,9 @@ class Gallery extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+   if (props.tag !== this.props.tag){ // get new images only if the tag has changed
     this.getImages(props.tag);
+   }
   }
 
   handleDelete(index) {
@@ -69,8 +72,9 @@ class Gallery extends React.Component {
           return <Image 
                   key={'image-' + dto.id} 
                   dto={dto}
-                  galleryWidth={this.state.galleryWidth} 
+                  galleryWidth={this.state.galleryWidth}
                   onDeleteClick= {() => this.handleDelete(index)}
+                  showFavorites={this.props.showFavorites}
                  />;
         })}
       </div>
