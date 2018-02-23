@@ -11,8 +11,15 @@ class App extends React.Component {
     super();
     this.state = {
       tag: '', // tag is empty until the user search for tags
-      showFavorites: false // true if the 'show favorites' is active, otherwise false
+      showFavorites: false, // true if the 'show favorites' is active, otherwise false
+      resetGallery: false // true when 'reset' button is the last action made, otherwise false
     };
+  }
+
+  turnOffReset() {
+    this.setState({
+      resetGallery: false
+    });
   }
 
   render() {
@@ -34,8 +41,23 @@ class App extends React.Component {
               showFavorites: !this.state.showFavorites
             })}
           />
+          <FontAwesome
+            className="app-icon"
+            name="redo-alt" 
+            title="reset"
+            onClick= {() => {
+              this.setState({
+                showFavorites: false,
+                resetGallery: true
+            })}}
+          />
         </div>
-        <Gallery tag={this.state.tag} showFavorites={this.state.showFavorites}/>
+        <Gallery 
+          tag={this.state.tag} 
+          showFavorites={this.state.showFavorites} 
+          resetGallery={this.state.resetGallery}
+          turnOffReset= {() => this.turnOffReset()}
+        />
       </div>
     );
   }

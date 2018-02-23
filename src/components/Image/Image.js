@@ -7,7 +7,8 @@ class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
     showFavorites: PropTypes.bool,
-    galleryWidth: PropTypes.number
+    galleryWidth: PropTypes.number,
+    resetGallery: PropTypes.bool
   };
 
   constructor(props) {
@@ -32,6 +33,17 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+  }
+
+  componentWillReceiveProps(props) {
+    // if images will receive a true resetGallery prop then 
+    // the save button and rotation are reset in all images
+    if (props.resetGallery){
+      this.setState({
+        isSaved: false, // if gallery is reset, then all images are not favorited anymore
+        rotation: 0 // images are not rotated after reset
+      });
+    }
   }
 
   urlFromDto(dto) {
