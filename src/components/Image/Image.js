@@ -55,11 +55,10 @@ class Image extends React.Component {
 
   /* added style to button div as to keep buttons aligned when rotating, used lightbox package to expand images */
   render() {
-	  const clsName = (this.state.rotate) ? 'rotate' : 'image-root';
 	  const balanceRotation = `rotate(${this.state.rotateDeg * -1}deg)`;
     return (
       <div
-        className= {clsName}
+        className= {'image-root'}
 		ref= {'image'}
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
@@ -69,7 +68,7 @@ class Image extends React.Component {
         }}>
         <div style={{transform: balanceRotation}}>
           <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.handleRotate} />
-          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={() => this.props.sendToDelete(this.props.dto.id)}/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={() => this.props.sendToDelete(this.props.dto)}/>
           <FontAwesome className="image-icon" name="expand" title="expand" onClick={() => this.props.sendToExpand(this.props.dto)}/>
         </div>
       </div>
