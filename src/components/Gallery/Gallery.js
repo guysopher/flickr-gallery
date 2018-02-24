@@ -11,6 +11,7 @@ class Gallery extends React.Component {
 
   constructor(props) {
     super(props);
+    this.updateDimensions = this.updateDimensions.bind(this);
     this.state = {
       images: [],
       galleryWidth: this.getGalleryWidth()
@@ -68,11 +69,11 @@ class Gallery extends React.Component {
       galleryWidth: document.body.clientWidth
     });
     this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    window.addEventListener("resize", this.updateDimensions);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   componentWillReceiveProps(props) {
