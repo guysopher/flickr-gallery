@@ -15,26 +15,22 @@ class App extends React.Component {
 	  renderNewTag: false
     };
 	this.handleChange = this.handleChange.bind(this);
+	// handles calling flickr's API only when user finished typing
 	this.shouldRenderNewTag = debounce(this.shouldRenderNewTag, 600);
   }
   
-  handleChange(newTag) {
-	  
+  handleChange(newTag) {  
 	  this.setState({
 		  tag: newTag,
 		  renderNewTag: false
 		  });
 	  
-	  this.shouldRenderNewTag();  
+	  this.shouldRenderNewTag();
   }
   
-  shouldRenderNewTag() {
-	  
-	  this.setState({ renderNewTag: true });
-	  
+  shouldRenderNewTag() {  
+	  this.setState({ renderNewTag: true });  
   }
-  
-  
 
   render() {
 	  const title = 'Flickr Gallery - ' + this.state.tag;

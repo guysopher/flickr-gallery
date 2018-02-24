@@ -42,18 +42,16 @@ class Image extends React.Component {
   
   /*wanted to do an animation but I am a web development noob!!... react virgin */
   handleRotate() {
-	  const newDeg = (this.state.rotateDeg + 90) === 360 ? 0 : this.state.rotateDeg + 90 ;
-	  
+	const newDeg = (this.state.rotateDeg + 90) === 360 ? 0 : this.state.rotateDeg + 90 ;
+	const img = this.refs.image;
+	img.style.transform = img.style.transform.replace(/[0-9]+/,newDeg);
 	this.setState({
 		rotateDeg: newDeg
 	});
-	const img = this.refs.image;
-	img.style.transform = img.style.transform.replace(/[0-9]+/,newDeg);
-
   }
   
 
-  /* added style to button div as to keep buttons aligned when rotating, used lightbox package to expand images */
+  /* added style tags to buttons div to keep FontAwesome buttons aligned when rotating */
   render() {
 	  const balanceRotation = `rotate(${this.state.rotateDeg * -1}deg)`;
     return (
@@ -75,5 +73,4 @@ class Image extends React.Component {
     );
   }
 }
-
 export default Image;
