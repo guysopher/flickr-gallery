@@ -14,7 +14,7 @@ class Image extends React.Component {
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200,
-      rotation: 0,
+      rotation: 0
     };
   }
 
@@ -46,7 +46,7 @@ class Image extends React.Component {
       newRotation =- 360;
     }
     this.setState({
-      rotation: newRotation,
+      rotation: newRotation
     })
   }
 
