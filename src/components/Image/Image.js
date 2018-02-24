@@ -18,8 +18,8 @@ class Image extends React.Component {
     };
   }
 
-  calcImageSize() {
-    const {galleryWidth} = this.props;
+  calcImageSize(width) {
+    const galleryWidth = width;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -29,7 +29,15 @@ class Image extends React.Component {
   }
 
   componentDidMount() {
-    this.calcImageSize();
+    if (this.props.galleryWidth > document.body.clientWidth) {
+      this.calcImageSize(document.body.clientWidth);
+    } else {
+      this.calcImageSize(this.props.galleryWidth);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.calcImageSize(props.galleryWidth);
   }
 
   rotateImg90deg() {
