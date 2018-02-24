@@ -15,12 +15,12 @@ class Gallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [], 
+      images: [],
 	  cachedImages: [],
       galleryWidth: this.getGalleryWidth(),
 	  lightBoxOpen: false,
-	  photoIndex: 0,
-	  currentPage: 1
+	  photoIndex: 0, // used for lightbox
+	  currentPage: 1 // used to get more images
     };
 	this.deleteImage = this.deleteImage.bind(this);
 	this.expandImage = this.expandImage.bind(this);
@@ -74,12 +74,12 @@ class Gallery extends React.Component {
 	  window.removeEventListener('scroll', this.addOnScroll);
   }
 
-  
   // if gallery rendered with a new tag, reset everything, else do nothing
   componentWillReceiveProps(props) {
 	if (props.newTag) {
 	  this.setState({
   	  images: [],
+	  cachedImages: [],
 	  currentPage: 1,
 	  galleryWidth: this.getGalleryWidth()
 	  });
@@ -87,7 +87,8 @@ class Gallery extends React.Component {
 	}
   }
 
-/* receives the image ID to delete from child Image component */
+/* receives the image ID to delete from child Image component,
+   adds to cachedImages for later reference */
   
   deleteImage(deletedDto) {
       this.setState({
@@ -95,6 +96,7 @@ class Gallery extends React.Component {
 		  cachedImages: this.state.cachedImages.concat([deletedDto])
 	  });
   }
+  
   
   expandImage(dto) {
 	  this.setState({
@@ -116,15 +118,18 @@ class Gallery extends React.Component {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
   
+  
+  // requests 100 more images when user scrolled to bottom
   addOnScroll() {
 	  if (document.body.offsetHeight <= window.pageYOffset + window.innerHeight) {
 		  this.setState({
 			  currentPage: this.state.currentPage + 1
-		  });  
+		  });
 		  this.getImages(this.props.tag);
 	  }
   }
   
+  // restores last image deleted (LIFO)
   handleUndo() {
 	  const lastImage = this.state.cachedImages[this.state.cachedImages.length - 1];
 	  this.setState({
@@ -138,8 +143,6 @@ class Gallery extends React.Component {
 	const imgs = this.state.images;
 	const showUndoBtn = this.state.cachedImages.length !== 0;
     return (
-	
-	
       <div className="gallery-root" ref={'gallery'}>
 	  {_open && (
 	    <Lightbox
@@ -155,10 +158,9 @@ class Gallery extends React.Component {
           return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} sendToDelete={this.deleteImage} sendToExpand={this.expandImage}/>;
         })}
 		{showUndoBtn && (
-		<FloatingButton handleClick={this.handleUndo}/>
+		<FloatingButton handleClick={this.handleUndo} name="undo-alt" title="undo" />
 		)}
       </div>
-	  
     );
   }
 }

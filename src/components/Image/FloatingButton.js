@@ -5,7 +5,9 @@ import './FloatingButton.scss'
 
 class FloatingButton extends React.Component {
 	static propTypes = {
-		handleClick: PropTypes.func
+		handleClick: PropTypes.func,
+		name: PropTypes.string,
+		title: PropTypes.string
   };
   
   constructor(props) {
@@ -14,7 +16,7 @@ class FloatingButton extends React.Component {
   
   render() {
 	  return (
-	  <FontAwesome className="float" name="undo-alt" title="undo" onClick={() =>  this.props.handleClick() } />
+	  <FontAwesome className="float" name={this.props.name} title={this.props.title} onClick={() =>  this.props.handleClick() } />
 	  );
   }
 }
