@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
-import Lightbox from 'react-image-lightbox';
+import Lightbox from '../react-image-lightbox'; // used Lightbox from npmjs, for expand
+import FloatingButton from '../Image/FloatingButton';
+
 
 class Gallery extends React.Component {
   static propTypes = {
@@ -13,7 +15,8 @@ class Gallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [],
+      images: [], 
+	  cachedImages: [],
       galleryWidth: this.getGalleryWidth(),
 	  lightBoxOpen: false,
 	  photoIndex: 0,
@@ -24,6 +27,7 @@ class Gallery extends React.Component {
 	this.updateSize = this.updateSize.bind(this);
 	this.urlFromDto = this.urlFromDto.bind(this);
 	this.addOnScroll = this.addOnScroll.bind(this);
+	this.handleUndo = this.handleUndo.bind(this);
   }
 
   getGalleryWidth(){
@@ -51,7 +55,7 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({images: this.state.images.concat(res.photos.photo.filter(dto => this.state.images.indexOf(dto) === -1))});
+          this.setState({images: this.state.images.concat(res.photos.photo.filter(dto => !this.state.images.includes(dto))) }); // filter out existing (duplicate) images
         }
       });
   }
@@ -70,22 +74,27 @@ class Gallery extends React.Component {
 	  window.removeEventListener('scroll', this.addOnScroll);
   }
 
+  
+  // if gallery rendered with a new tag, reset everything, else do nothing
   componentWillReceiveProps(props) {
-	this.setState({ 
-	images: [],
-	currentPage: 1
-	});
-    this.getImages(props.tag);
+	if (props.newTag) {
+	  this.setState({
+  	  images: [],
+	  currentPage: 1,
+	  galleryWidth: this.getGalleryWidth()
+	  });
+      this.getImages(props.tag);
+	}
   }
 
 /* receives the image ID to delete from child Image component */
   
-  deleteImage(id) {
+  deleteImage(deletedDto) {
       this.setState({
-		  images: this.state.images.filter(dto => dto.id !== id)
+		  images: this.state.images.filter(dto => dto.id !== deletedDto.id),
+		  cachedImages: this.state.cachedImages.concat([deletedDto])
 	  });
   }
-  
   
   expandImage(dto) {
 	  this.setState({
@@ -111,18 +120,23 @@ class Gallery extends React.Component {
 	  if (document.body.offsetHeight <= window.pageYOffset + window.innerHeight) {
 		  this.setState({
 			  currentPage: this.state.currentPage + 1
-		  });
-			  
+		  });  
 		  this.getImages(this.props.tag);
 	  }
   }
   
- 
-
-
+  handleUndo() {
+	  const lastImage = this.state.cachedImages[this.state.cachedImages.length - 1];
+	  this.setState({
+		  images: [lastImage].concat(this.state.images),
+		  cachedImages: this.state.cachedImages.filter(dto => dto.id !== lastImage.id)
+	  });
+  }
+  
   render() {
-	  const _open = this.state.lightBoxOpen;
-	  const imgs = this.state.images;
+	const _open = this.state.lightBoxOpen;
+	const imgs = this.state.images;
+	const showUndoBtn = this.state.cachedImages.length !== 0;
     return (
 	
 	
@@ -138,9 +152,13 @@ class Gallery extends React.Component {
 	/>
 	)}
         {this.state.images.map(dto => {
-          return <Image key={dto.id} dto={dto} galleryWidth={this.state.galleryWidth} sendToDelete={this.deleteImage} sendToExpand={this.expandImage}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} sendToDelete={this.deleteImage} sendToExpand={this.expandImage}/>;
         })}
+		{showUndoBtn && (
+		<FloatingButton handleClick={this.handleUndo}/>
+		)}
       </div>
+	  
     );
   }
 }
