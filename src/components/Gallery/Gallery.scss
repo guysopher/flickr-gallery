@@ -12,3 +12,29 @@
 .gallery-intro {
   font-size: 15pt;
 }
+
+.gallery-expand-mode {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100%; // expand mode is all over the screen
+  height: 100%; // expand mode is all over the screen
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.expand-mode-button {
+  font-size: 30px;
+  color: #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 12px;
+  margin: 2px;
+  position: absolute;
+  
+  &:hover {
+      color: white;
+      border-color: white;
+  }
+}
