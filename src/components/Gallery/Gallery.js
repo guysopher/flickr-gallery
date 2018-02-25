@@ -69,11 +69,11 @@ class Gallery extends React.Component {
       galleryWidth: document.body.clientWidth
     });
     this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions);
+    window.addEventListener('resize', this.updateDimensions);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   componentWillReceiveProps(props) {
