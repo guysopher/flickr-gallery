@@ -12,8 +12,14 @@ class Image extends React.Component {
   constructor(props) {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
+	
+	this.deleteImage = this.deleteImage.bind(this);//
+    this.rotateImage = this.rotateImage.bind(this);//
+	
     this.state = {
-      size: 200
+      size: 200,
+	   showView: true,//
+      rotation: 0//
     };
   }
 
@@ -36,23 +42,42 @@ class Image extends React.Component {
   }
 
   render() {
+	  
+	  if(this.state.showView){//
+		  
     return (
       <div
         className="image-root"
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          height: this.state.size + 'px',
+		  transform: 'rotate('+this.state.rotation+'deg)'
+		
         }}
         >
         <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+          <FontAwesome className="image-icon" onClick={this.rotateImage} name="sync-alt" title="rotate"/>
+          <FontAwesome className="image-icon" onClick={this.deleteImage} name="trash-alt" title="delete"/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
     );
   }
+  return(<div></div>);
 }
+deleteImage(){
+     this.setState({
+      showView: false
+    });
+  }
 
+  rotateImage(){
+    var n_rotation = this.state.rotation;
+    n_rotation += 90;
+    this.setState({
+      rotation: n_rotation
+    });
+  }
+}
 export default Image;
