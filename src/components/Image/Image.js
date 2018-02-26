@@ -13,7 +13,8 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+        size: 200,
+        rotate: 0
     };
   }
 
@@ -21,34 +22,41 @@ class Image extends React.Component {
     const {galleryWidth} = this.props;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth / imagesPerRow);
-    this.setState({
-      size
-    });
+    return (galleryWidth / imagesPerRow);
   }
 
-  componentDidMount() {
-    this.calcImageSize();
-  }
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+  rotate() {
+    this.setState({
+      rotate: (this.state.rotate + 90)
+    })
+  }
+
   render() {
+    const size = this.calcImageSize()
     return (
       <div
         className="image-root"
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          width: size + 'px',
+          height: size + 'px',
+            transform: `rotate(${this.state.rotate}deg)`
         }}
         >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+        <div
+            className="icons"
+            style={{
+                transform: `rotate(-${this.state.rotate}deg)`
+            }}
+        >
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={()=> this.rotate()}/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={() => this.props.delete(this.props.dto.id)}/>
+          <FontAwesome className="image-icon" name="expand" title="expand" onClick={()=> this.props.openExpend(this.props.imageIndex)}/>
         </div>
       </div>
     );
@@ -56,3 +64,4 @@ class Image extends React.Component {
 }
 
 export default Image;
+
