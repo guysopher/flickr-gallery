@@ -14,7 +14,7 @@ class Image extends React.Component {
     super(props);
     this.state = {
       size: 200,
-      rotationDeg: 0
+      rotationDeg: 0,
     };
     this.handleRotation = this.handleRotation.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -23,7 +23,7 @@ class Image extends React.Component {
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props.galleryWidth;
+    const galleryWidth = this.props.galleryWidth;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -58,7 +58,6 @@ class Image extends React.Component {
     this.props.expendImages(this.props.dto);
   }
   
-
   render() {
     
     return (

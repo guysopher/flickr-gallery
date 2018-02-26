@@ -10,7 +10,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 class Gallery extends React.Component {
   static propTypes = {
     tag: PropTypes.string,
-
   };
 
   constructor(props) {
@@ -32,6 +31,8 @@ class Gallery extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleDupAndDelImages = this.handleDupAndDelImages.bind(this);
     this.getImages = this.getImages.bind(this);
+    this.getGalleryWidth = this.getGalleryWidth.bind(this);
+    this.handleSize = this.handleSize.bind(this);
 
   }
 
@@ -67,25 +68,26 @@ class Gallery extends React.Component {
       });
   }
 
-  componentDidMount() {
+  componentDidMount() {  
     this.getImages(this.props.tag);
     this.setState({
       galleryWidth: document.body.clientWidth,
     });
-    window.addEventListener("resize", this.handleSize.bind(this));
+    window.addEventListener("resize", this.handleSize);
   }
 
   componentWillReceiveProps(props) {
+    this.setState({images:[], imagesIds: new Set(), pageNum: 1});
     this.getImages(props.tag);
   }
 
   componentWillUnmount (){
     window.addEventListener("resize", this.getGalleryWidth);
-    window.removeEventListener("resize", this.handleSize.bind(this));
+    window.removeEventListener("resize", this.handleSize);
   }
 
   handleSize(){
-    var sizeWindow = this.getGalleryWidth;
+    var sizeWindow = this.getGalleryWidth();
     this.setState({galleryWidth: sizeWindow});
   }
   
