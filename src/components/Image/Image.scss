@@ -18,12 +18,12 @@
     color: white;
     padding: 15px;
     text-align: center;
-    text-align: center;
     box-sizing: border-box;
     white-space: pre;
     display: flex;
+    flex-wrap: wrap; // added to make the buttons not to overflow
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
   }
 
   &:hover > div {
@@ -37,8 +37,8 @@
     color: #ccc;
     border-radius: 5px;
     cursor: pointer;
-    padding: 12px;
-    margin: 2px;
+    padding: 9px; // padding is smaller because we have 4 buttons instead of 3
+    margin: 2px;    
     
     &:hover {
         color: white;
@@ -67,8 +67,8 @@
 /*
  * Classes for rotated images. 
  * Each class inherits the "image-root" class (to prevent repetitive code).
- * Images are transformed accordingly and the part that is activated while hovering 
- * is rotated back to the original degrees.
+ * Images are transformed accordingly and the part that is activated while 
+ * hovering is rotated back to the original degrees.
  */ 
 .image-root-rotated90 {
   @extend .image-root;
