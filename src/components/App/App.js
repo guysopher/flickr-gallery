@@ -29,13 +29,13 @@ class App extends React.Component {
           <h2>Awesome Flickr Gallery</h2>
           <input
             className="app-input"
-            onChange={event => this.setState({tag: event.target.value})}
+            onChange={event => this.setState({tag: event.target.value, showFavorites: false})}
             value={this.state.tag}
             placeholder="Search" // this will give a 'hint' to the user to search for tags
           />
           <FontAwesome
             className= {(this.state.showFavorites) ? 'app-icon-fav-active' : 'app-icon'}
-            name="heart" title="show favorites"
+            name="heart" title="show tag favorites"
             /*This button filters the gallery so that only the favorited images will be presented.
               Note: when showing favorited images, navigation arrows on expand mode are not displayed. */
             onClick= {() => this.setState({showFavorites: !this.state.showFavorites})}
