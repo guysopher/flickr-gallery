@@ -32,7 +32,6 @@ class Gallery extends React.Component {
 
   getGalleryWidth(){
     try {
-	   console.log('gallery width ' + document.body.clientWidth);
       return document.body.clientWidth;
     } catch (e) {
       return 1000;
