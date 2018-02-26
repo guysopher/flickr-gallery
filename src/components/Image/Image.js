@@ -22,10 +22,11 @@ class Image extends React.Component {
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props.galleryWidth;
+    const galleryWidth = document.body.clientWidth;
     const targetSize = this.state.size;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
+    const imagesPerRow = Math.round(galleryWidth / 200);
     const size = (galleryWidth / imagesPerRow);
+	console.log(size);
     this.setState({
       size
     });
@@ -33,6 +34,11 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+	window.addEventListener('resize', this.calcImageSize);
+  }
+  
+  componentWillUnmount() {
+	 window.removeEventListener('resize', this.calcImageSize);
   }
   
 

@@ -14,6 +14,7 @@ class Gallery extends React.Component {
 
   constructor(props) {
     super(props);
+	this.getGalleryWidth = this.getGalleryWidth.bind(this);
     this.state = {
       images: [],
 	  cachedImages: [],
@@ -24,7 +25,6 @@ class Gallery extends React.Component {
     };
 	this.deleteImage = this.deleteImage.bind(this);
 	this.expandImage = this.expandImage.bind(this);
-	this.updateSize = this.updateSize.bind(this);
 	this.urlFromDto = this.urlFromDto.bind(this);
 	this.addOnScroll = this.addOnScroll.bind(this);
 	this.handleUndo = this.handleUndo.bind(this);
@@ -32,6 +32,7 @@ class Gallery extends React.Component {
 
   getGalleryWidth(){
     try {
+	   console.log('gallery width ' + document.body.clientWidth);
       return document.body.clientWidth;
     } catch (e) {
       return 1000;
@@ -65,12 +66,10 @@ class Gallery extends React.Component {
     this.setState({
       galleryWidth: document.body.clientWidth
     });
-	window.addEventListener('resize', this.updateSize);
 	window.addEventListener('scroll', this.addOnScroll);
   }
   
   componentWillUnmount() {
-	  window.removeEventListener('resize', this.updateSize);
 	  window.removeEventListener('scroll', this.addOnScroll);
   }
 
@@ -102,13 +101,6 @@ class Gallery extends React.Component {
 	  this.setState({
 		  lightBoxOpen: true,
 		  photoIndex: this.state.images.indexOf(dto)
-	  });
-  }
-  
-  updateSize() {
-	  let currentWidth = document.body.clientWidth;
-	  this.setState({
-		  galleryWidth: currentWidth
 	  });
   }
   
