@@ -95,6 +95,6 @@
     "post": [
       "clean-source"
     ],
-    "noprompt": true
+    "noprompt": false
   }
 }
