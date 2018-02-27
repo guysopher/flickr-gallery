@@ -3,6 +3,7 @@ import {mount} from 'enzyme';
 import {expect} from 'chai';
 import moxios from 'moxios';
 import Gallery from './Gallery.js';
+import sinon from 'sinon';
 
 describe('Gallery', () => {
 
@@ -46,7 +47,7 @@ describe('Gallery', () => {
     wrapper.setState({
       images: initialImages
     }, () => {
-      expect(wrapper.children().children().length).to.eq(initialImages.length);
+      expect(wrapper.find({ className: 'gallery-root' }).children().length).to.equal(initialImages.length);
       done();
     });
   });
@@ -69,6 +70,53 @@ describe('Gallery', () => {
       });
     });
     wrapper.setProps({tag: 'test2'});
-
   });
+
+  it('check add more images function', done => {
+    const spy = sinon.spy(Gallery.prototype, 'getImages');
+    wrapper.instance().loadMore(1);
+    expect(spy.called).to.be.true;
+      done();
+    });
+
+  it('calc image size on mount', done => {
+    const spy = sinon.spy(Gallery.prototype, 'calcImageSize');
+    wrapper = mount(
+      <Gallery/>,
+      {attachTo: document.createElement('div')}
+    );
+    expect(spy.called).to.be.true;
+    done();
+  });
+
+  it('calculate image size correctly',done  => {
+    const imageSize = wrapper.instance().calcImageSize();
+    const remainder = wrapper.instance().getGalleryWidth() % imageSize;
+    expect(remainder).to.be.lessThan(1);
+    done();
+  });
+
+  it('calculate total number of images on mount',done  => {
+    const spy = sinon.spy(Gallery.prototype, 'calcNumberOfImages');
+    wrapper = mount(
+      <Gallery/>,
+      {attachTo: document.createElement('div')}
+    );
+    expect(spy.called).to.be.true;
+    done();
+  });
+
+ /* it('check load more photo function',done  => {
+    wrapper.setState({
+      images: initialImages
+    }, () => {
+      const spy = sinon.spy(Gallery.prototype, 'render');
+      const spy2 = sinon.spy(Gallery.prototype, 'loadMore');
+      var spyCall = spy2.getCall(0)
+      wrapper.instance().loadMore(1);
+      expect(spy.called).to.be.true;
+      expect(spyCall.returnValue).to.be.GreaterEqual(initialImages.length);
+      done();
+    });
+  });*/
 });
