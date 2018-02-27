@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
+//import LightBox from 'react-lightbox-component';
+
 
 class Image extends React.Component {
   static propTypes = {
@@ -19,6 +21,7 @@ class Image extends React.Component {
     this.state = {
       size: 200,
 	   showView: true,//
+	  
       rotation: 0//
     };
   }
@@ -56,11 +59,17 @@ class Image extends React.Component {
 		
         }}
         >
-        <div>
+        <div
+		style={{         
+		  transform: 'rotate(-'+this.state.rotation+'deg)'		
+        }}
+		>
           <FontAwesome className="image-icon" onClick={this.rotateImage} name="sync-alt" title="rotate"/>
           <FontAwesome className="image-icon" onClick={this.deleteImage} name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <FontAwesome className="image-icon" onClick={this.expandImage}name="expand" title="expand"/>
+		  
         </div>
+		
       </div>
     );
   }
@@ -77,6 +86,13 @@ deleteImage(){
     n_rotation += 90;
     this.setState({
       rotation: n_rotation
+	  
+    });
+  }
+  expandImage(){//
+     this.setState({
+	
+	  
     });
   }
 }
