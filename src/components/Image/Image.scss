@@ -1,3 +1,8 @@
+.root{
+  display: inline-block;
+
+}
+
 .image-root {
   background-size: cover;
   background-position: center center;
@@ -7,7 +12,7 @@
   position: relative;
   border: 1px solid white;
 
-  > div {
+  > .button-layer {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
     cursor: pointer;
@@ -48,3 +53,15 @@
   }
 }
 
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}

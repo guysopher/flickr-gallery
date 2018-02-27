@@ -5,13 +5,17 @@ body, html {
 
 .app-root {
   text-align: center;
+  background-color: rgba(0,0,0,0.4)
 }
 
 .app-header {
-  background-color: #222;
+  background-image: url("https://www.crockerart.org/uploads/elements/home/marquee-1600x700.jpg");
+  background-size: 100% auto ;
+  background-position: center;
   padding: 10px;
   color: white;
   font-size: 20pt;
+  font-family: fantasy;
 }
 
 .app-input {

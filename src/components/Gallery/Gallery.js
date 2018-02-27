@@ -17,7 +17,7 @@ class Gallery extends React.Component {
     };
   }
 
-  getGalleryWidth(){
+  getGalleryWidth() {
     try {
       return document.body.clientWidth;
     } catch (e) {
@@ -28,10 +28,10 @@ class Gallery extends React.Component {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({
-      url: getImagesUrl,
-      baseURL: baseUrl,
-      method: 'GET'
-    })
+        url: getImagesUrl,
+        baseURL: baseUrl,
+        method: 'GET'
+      })
       .then(res => res.data)
       .then(res => {
         if (
@@ -40,7 +40,9 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({images: res.photos.photo});
+          this.setState({
+            images: res.photos.photo
+          });
         }
       });
   }
@@ -57,12 +59,22 @@ class Gallery extends React.Component {
   }
 
   render() {
-    return (
-      <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
-        })}
-      </div>
+    return ( <
+      div className = "gallery-root" > {
+        this.state.images.map(dto => {
+          return <Image key = {
+            'image-' + dto.id
+          }
+          dto = {
+            dto
+          }
+          galleryWidth = {
+            this.state.galleryWidth
+          }
+          />;
+        })
+      } <
+      /div>
     );
   }
 }
