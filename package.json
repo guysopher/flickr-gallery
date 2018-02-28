@@ -80,7 +80,10 @@
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "react-fontawesome": "^1.6.1"
+    "react-fontawesome": "^1.6.1",
+    "react-infinite-scroll": "^0.1.5",
+    "react-infinite-scroll-component": "^3.0.2",
+    "react-responsive": "^4.0.4"
   },
   "gh-pages-deploy": {
     "staticpath": "dist",

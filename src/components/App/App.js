@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Gallery from '../Gallery';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 class App extends React.Component {
   static propTypes = {
@@ -13,7 +14,7 @@ class App extends React.Component {
     this.closeSlider = this.closeSlider.bind(this);
     this.nextImage = this.nextImage.bind(this);
     this.prevImage = this.prevImage.bind(this);
-   
+  
     this.state = {
       tag: 'art',
       frontImage: null
@@ -76,20 +77,24 @@ class App extends React.Component {
 
   }
 
+
+
+
   render() {
     return (
-     
-      <div className="app-root">
-        <div className="slider" id="ImageSlider">
-          <a className="close-btn" onClick={this.closeSlider}>&times;</a>
-          <a className="prev" onClick={this.prevImage} >&#10094;</a>
-          <a className="next" onClick={this.nextImage} >&#10095;</a>
-          <img className="frot-image" id="imshow"/></div>
-        <div className="app-header">
+
+      
+        <div className="app-root">
+          <div className="slider" id="ImageSlider">
+            <a className="close-btn" onClick={this.closeSlider}>&times;</a>
+            <a className="prev" onClick={this.prevImage} >&#10094;</a>
+            <a className="next" onClick={this.nextImage} >&#10095;</a>
+            <img className="frot-image" id="imshow" /></div>
+          <div className="app-header">
           <h2>Flickr Gallery</h2>
-          <input className="app-input" onChange={event => this.setState({tag: event.target.value})} value={this.state.tag}/>
+          <input className="app-input" onChange={event => this.setState({ tag: event.target.value })} value={this.state.tag} />
+          <Gallery Myfunc={this.fullScreenImage} tag={this.state.tag} />
         </div>
-        <Gallery Myfunc={this.fullScreenImage} tag={this.state.tag} />
       </div>
      
     );

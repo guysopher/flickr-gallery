@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+
+
 
 class Gallery extends React.Component {
   static propTypes = {
@@ -16,6 +20,7 @@ class Gallery extends React.Component {
       images: [],
       galleryWidth: this.getGalleryWidth()
     };
+    this.ee = this.ee.bind(this);
   }
 
   getGalleryWidth(){
@@ -58,13 +63,26 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+
+
+  ee() {
+    alert('e');
+    this.getImages(this.props.tag);
+
+
+  }
+
   render() {
     return (
-      <div id="gallery" className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image Myfunc={this.props.Myfunc} key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} />;
-        })}
-      </div>
+      <div id= "gallery" className= "gallery-root" >
+        {
+          this.state.images.map(dto => {
+            return <Image Myfunc={this.props.Myfunc} key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} />;
+          })
+        }
+        </div >
+    
+     
     );
   }
 }

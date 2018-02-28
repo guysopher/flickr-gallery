@@ -1,13 +1,15 @@
 .gallery-root {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
- 
-  flex-flow:wrap;
+  background-color: black;
+  white-space:pre;
 }
 
 .gallery-header {
   background-color: #222;
+
  
   color: white;
   font-size: 20pt;
@@ -17,3 +19,4 @@
   font-size: 15pt;
  
 }
+

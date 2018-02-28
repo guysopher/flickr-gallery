@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
+import MediaQuery from 'react-responsive';
+
 
 
 
@@ -35,11 +37,12 @@ class Image extends React.Component {
 
   calcImageSize() {
    
-    const {galleryWidth} = this.props;
+    const { galleryWidth } = this.props;
     const targetSize = 200;
-    
-    const imagesPerRow =(galleryWidth / targetSize);
+
+    const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
+
     this.setState({
       size
       
@@ -48,6 +51,8 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+    
+   
   }
 
   urlFromDto(dto) {
@@ -69,8 +74,6 @@ class Image extends React.Component {
 
     var temp = document.getElementById(this.props.dto.id);
     temp.style.display = 'none';
-   
-    
   }
 
 
@@ -90,6 +93,8 @@ class Image extends React.Component {
 
 
     return (
+    
+      
       <div id={this.props.dto.id}
         className="image-root"
         style={{
@@ -98,13 +103,18 @@ class Image extends React.Component {
           height: this.state.size + 'px'
         }}
       >
-
+       
         <div>
           <FontAwesome onClick={this.turnImage} className="image-icon" name="sync-alt" title="rotate" />
           <FontAwesome onClick={this.deleteImage} className="image-icon" name="trash-alt" title="delete" />
           <FontAwesome onClick={this.expendImage} className="image-icon" name="expand" title="expand" />
         </div>
-      </div>
+        
+        </div>
+       
+       
+
+    
     );
   }
 }
