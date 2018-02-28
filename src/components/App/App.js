@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Gallery from '../Gallery';
-import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 class App extends React.Component {
   static propTypes = {

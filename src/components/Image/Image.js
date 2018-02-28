@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
-import MediaQuery from 'react-responsive';
+
 
 
 

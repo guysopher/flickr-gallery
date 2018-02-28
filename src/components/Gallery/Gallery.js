@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
-import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 
 
