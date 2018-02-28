@@ -90,9 +90,7 @@ class Image extends React.Component {
 
   render() {
 
-
-
-    return (
+   return (
     
       
       <div id={this.props.dto.id}

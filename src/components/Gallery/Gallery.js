@@ -65,13 +65,6 @@ class Gallery extends React.Component {
 
 
 
-  ee() {
-    alert('e');
-    this.getImages(this.props.tag);
-
-
-  }
-
   render() {
     return (
       <div id= "gallery" className= "gallery-root" >
