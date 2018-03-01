@@ -1,14 +1,42 @@
 .gallery-root {
   text-align: center;
+  //margin: 3px;
 }
 
 .gallery-header {
   background-color: #222;
-  padding: 10px;
+  padding: 1px;
   color: white;
   font-size: 20pt;
 }
 
 .gallery-intro {
   font-size: 15pt;
+}
+
+.rotate-90{
+  transform: rotate(90deg);
+}
+
+.rotate-180{
+  transform: rotate(180deg);
+}
+
+.rotate-270{
+  transform: rotate(270deg);
+}
+
+.mrotate-90{
+  transform: rotate(-90deg);
+}
+
+.mrotate-180{
+  transform: rotate(-180deg);
+}
+
+.mrotate-270{
+  transform: rotate(-270deg);
+}
+.mrotate-0{
+  transform: rotate(-360deg);
 }

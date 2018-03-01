@@ -13,17 +13,31 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      galleryHeigh: this.getGalleryHeigh()
+
     };
   }
 
   getGalleryWidth(){
+    //console.log('clientWidth',document.body.clientWidth);
     try {
       return document.body.clientWidth;
     } catch (e) {
       return 1000;
     }
   }
+
+  getGalleryHeigh(){
+    //console.log('clientHeight',document.body.clientHeight);
+    try {
+      return document.body.clientHeight;
+    } catch (e) {
+      return 1000;
+    }
+  }
+
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
@@ -48,9 +62,11 @@ class Gallery extends React.Component {
   componentDidMount() {
     this.getImages(this.props.tag);
     this.setState({
-      galleryWidth: document.body.clientWidth
+      galleryWidth: document.body.clientWidth,
+      galleryHeigh: document.body.clientHeight
     });
   }
+
 
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
@@ -58,9 +74,10 @@ class Gallery extends React.Component {
 
   render() {
     return (
-      <div className="gallery-root">
+
+      <div className="gallery-root" >
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} galleryHeigh={this.state.galleryHeigh}/>;
         })}
       </div>
     );

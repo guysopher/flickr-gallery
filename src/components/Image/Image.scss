@@ -25,10 +25,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
   }
 
   &:hover > div {
     visibility: visible;
+
   }
 
   .image-icon {
@@ -44,7 +46,11 @@
     &:hover {
       color: white;
       border-color: white;
+
     }
   }
+
+
 }
+
 
