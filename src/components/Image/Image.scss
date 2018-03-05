@@ -1,11 +1,12 @@
 .image-root {
   background-size: cover;
   background-position: center center;
-  display: inline-block;
+  float: left;
   vertical-align: top;
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
+
 
   > div {
     visibility: hidden;
@@ -47,4 +48,3 @@
     }
   }
 }
-
