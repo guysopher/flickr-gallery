@@ -35,7 +35,8 @@ class Gallery extends React.Component {
     } catch (e) {
       return 1000;
     }
-  }
+  };
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&page=${this.state.page}&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
