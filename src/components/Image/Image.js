@@ -17,9 +17,8 @@ class Image extends React.Component {
         this.openSlider = this.openSlider.bind(this);
         this.state = {
             size: 200,
-            sizePercent: 0,
             rotationImg: 0,
-            rotationBtn: 0,
+            rotationBtn: 0
         };
   }
 
@@ -28,12 +27,8 @@ class Image extends React.Component {
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
-    const sizePercent = (size*100 / galleryWidth);
     this.setState({
         size:size
-    });
-    this.setState({
-        sizePercent:sizePercent
     });
   }
 
@@ -57,7 +52,7 @@ class Image extends React.Component {
     });
     this.setState({
         rotationBtn: Rotate*(-1)
-    })
+    });
   }
 
   openSlider () {
@@ -73,15 +68,15 @@ class Image extends React.Component {
         className="image-root"
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.sizePercent + '%',
+          width: this.state.size + 'px',
           height: this.state.size + 'px',
-          transform: `rotate(${this.state.rotationImg}deg)`,
+          transform: `rotate(${this.state.rotationImg}deg)`
           }}
         >
         <div style={{transform: `rotate(${this.state.rotationBtn}deg)`}}>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.rotateImg}/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={this.deleteItem}/>
-          <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.openSlider}/>
+          <FontAwesome id="rotate-btn" className="image-icon" name="sync-alt" title="rotate" onClick={this.rotateImg}/>
+          <FontAwesome id="delete-btn" className="image-icon" name="trash-alt" title="delete" onClick={this.deleteItem}/>
+          <FontAwesome id="expand-btn" className="image-icon" name="expand" title="expand" onClick={this.openSlider}/>
         </div>
       </div>
     );

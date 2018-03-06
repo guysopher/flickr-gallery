@@ -39,4 +39,21 @@ describe('Image', () => {
     expect(remainder).to.be.lessThan(1);
   });
 
+    it('check that image is enlarge by opening slider', () => {
+        const spy = sinon.spy(Image.prototype, 'openSlider');
+        expect(spy.called).to.be.true;
+    });
+    it('check that image rotation fuc is triggered on click', () => {
+        const spy = sinon.spy(Image.prototype, 'rotateImg');
+        const wrapper = mount(<Image/>);
+        wrapper.find('#rotate-btn').simulate('click');
+        expect(spy.called).to.be.true;
+    });
+    it('check that image rotation fuc is triggered on click', () => {
+        const spy = sinon.spy(Image.prototype, 'deleteItem');
+    const wrapper = mount(<Image/>);
+    wrapper.find('#delete-btn').simulate('click');
+    expect(spy.called).to.be.true;
+    });
+
 });

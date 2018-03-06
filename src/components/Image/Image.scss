@@ -7,7 +7,6 @@
   position: relative;
   border: 1px solid white;
 
-
   > div {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
@@ -46,5 +45,41 @@
       color: white;
       border-color: white;
     }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .image-root {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: 320px) {
+  .image-root {
+    width: 50% !important;
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .image-root {
+    width: 33% !important;
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .image-root {
+    width: 25% !important;
+  }
+}
+
+@media only screen and (min-width: 890px) {
+  .image-root {
+    width: 20% !important;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .image-root {
+    width: 16.666% !important;
   }
 }

@@ -4,7 +4,6 @@ import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
 import Slider from 'react-image-slider';
-//import './Slider';
 
 class Gallery extends React.Component {
   static propTypes = {
@@ -18,13 +17,15 @@ class Gallery extends React.Component {
         this.stopSlider = this.stopSlider.bind(this);
         this.nextImg = this.nextImg.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
+       // this.handleWindowResize = this.handleWindowResize.bind(this);
         this.state = {
            images: [],
            galleryWidth: this.getGalleryWidth(),
            showSlider: false,
            currentIndex: '',
            imageToStartUrl: '',
-           page: 1
+           page: 1,
+           toRender: 0
         };
   }
 
@@ -53,7 +54,6 @@ class Gallery extends React.Component {
         ) {
 
           this.setState({images: this.state.images.concat(res.photos.photo)});
-            console.log(this.state.images);
         }
       });
   }
@@ -64,6 +64,7 @@ class Gallery extends React.Component {
       galleryWidth: document.body.clientWidth
     });
     window.addEventListener('scroll', this.handleScroll);
+   // window.addEventListener('resize', this.handleWindowResize);
   }
 
   handleScroll () {
@@ -73,12 +74,14 @@ class Gallery extends React.Component {
 
     if (offset === height) {
         this.setState({page: ++this.state.page});
-        console.log('At the bottom');
-        console.log(this.state.page);
         this.getImages(this.props.tag);
     }
   }
-
+/*
+   handleWindowResize = () => {
+    this.forceUpdate();
+   }
+*/
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
   }
@@ -102,7 +105,6 @@ class Gallery extends React.Component {
   nextImg =() => {
     this.setState({currentIndex: ++this.state.currentIndex});
     this.setState({imageToStartUrl: this.refs.child.urlFromDto(this.state.images[this.state.currentIndex])});
-    console.log(this.state.currentIndex);
     console.log(this.state.imageToStartUrl);
   }
 
