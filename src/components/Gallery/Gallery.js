@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
-import Slider from 'react-image-slider';
+//import Slider from 'react-image-slider';
 
 class Gallery extends React.Component {
   static propTypes = {
@@ -105,7 +105,6 @@ class Gallery extends React.Component {
   nextImg =() => {
     this.setState({currentIndex: ++this.state.currentIndex});
     this.setState({imageToStartUrl: this.refs.child.urlFromDto(this.state.images[this.state.currentIndex])});
-    console.log(this.state.imageToStartUrl);
   }
 
 
