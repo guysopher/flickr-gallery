@@ -16,6 +16,18 @@ class Gallery extends React.Component {
       galleryWidth: this.getGalleryWidth()
     };
   }
+//Remove Image
+removeImage = (id) =>{
+  for(let i = 0; i < this.state.images.length; i++){
+    if(this.state.images[i].id === id){
+      this.state.images.splice(i, 1);
+      this.setState({
+        images: this.state.images
+      });
+      break;
+    }
+  }
+}
 
   getGalleryWidth(){
     try {
@@ -60,7 +72,7 @@ class Gallery extends React.Component {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} removeImage={this.removeImage.bind(this)}/>;
         })}
       </div>
     );

@@ -13,8 +13,20 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      degree: 0
     };
+  }
+  // Delete event:
+  onDeleteEventHandler = () =>{
+   // alert('alert');
+    this.props.removeImage(this.props.dto.id);
+  }
+  // Rotate Image
+  onRotateEventHandler = () => {
+    // alert('rotate');
+    this.state.degree = this.state.degree +  90;
+    this.setState(this.state);
   }
 
   calcImageSize() {
@@ -38,16 +50,23 @@ class Image extends React.Component {
   render() {
     return (
       <div
-        className="image-root"
+       className="image-root"
+         style={{
+           width: this.state.size + 'px',
+           height: this.state.size + 'px',
+         }}
+        >
+        <img
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
-        }}
-        >
+          height: this.state.size + 'px',
+          transform: `rotate(${this.state.degree}deg)`,
+          margin: 0
+        }}/>
         <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+          <FontAwesome onClick={this.onRotateEventHandler}className="image-icon" name="sync-alt" title="rotate"/>
+          <FontAwesome onClick={this.onDeleteEventHandler} className="image-icon" name="trash-alt" title="delete"/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
