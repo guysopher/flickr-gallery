@@ -71,4 +71,25 @@ describe('Gallery', () => {
     wrapper.setProps({tag: 'test2'});
 
   });
+
+
+    it('check width and height is set to 100%', () => {
+        expect(component.find('.gallery-root').prop('style')).toHaveProperty('width', '100%');
+    });
+
+    it('check that handlescroll func is triggered', () => {
+        const spy = sinon.spy(Gallery.prototype, 'handleScroll');
+        expect(spy.called).to.be.true;
+    });
+    it('check that slider starts func is triggered', () => {
+        const spy = sinon.spy(Gallery.prototype, 'startSlider');
+        expect(spy.called).to.be.true;
+    });
+    it('check that next image triggered on button click', () => {
+        const spy = sinon.spy(Gallery.prototype, 'nextImg')
+        const wrapper = mount(<Gallery/>);
+        wrapper.find('.next').simulate('click');
+        expect(spy.called).to.be.true;
+    });
+
 });
