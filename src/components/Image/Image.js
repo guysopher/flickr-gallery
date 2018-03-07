@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
+import ImageView from '../FullImage/ImageView';
 
 class Image extends React.Component {
   static propTypes = {
@@ -14,7 +15,8 @@ class Image extends React.Component {
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200,
-      degree: 0
+      degree: 0,
+      expanded: false
     };
   }
   // Delete event:
@@ -27,6 +29,19 @@ class Image extends React.Component {
     // alert('rotate');
     this.state.degree = this.state.degree +  90;
     this.setState(this.state);
+  }
+
+  // Expand Image
+  onExpandEventHandler= () => {
+    // alert('EXPAND');
+    this.state.expanded = true;
+    this.setState(this.state);
+  }
+  closeExpanded = () =>{
+    alert('close');
+    this.state.expanded = false;
+    this.setState(this.state);
+
   }
 
   calcImageSize() {
@@ -53,9 +68,10 @@ class Image extends React.Component {
        className="image-root"
          style={{
            width: this.state.size + 'px',
-           height: this.state.size + 'px',
+           height: this.state.size + 'px'
          }}
         >
+
         <img
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
@@ -67,8 +83,12 @@ class Image extends React.Component {
         <div>
           <FontAwesome onClick={this.onRotateEventHandler}className="image-icon" name="sync-alt" title="rotate"/>
           <FontAwesome onClick={this.onDeleteEventHandler} className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <FontAwesome onClick={this.onExpandEventHandler} className="image-icon" name="expand" title="expand"/>
         </div>
+        {
+          this.state.expanded ?
+          <ImageView url={this.urlFromDto(this.props.dto)} onClose={this.closeExpanded.bind(this)}></ImageView>:''
+        }
       </div>
     );
   }
