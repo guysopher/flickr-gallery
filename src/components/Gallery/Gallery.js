@@ -38,7 +38,7 @@ class Gallery extends React.Component {
   };
 
   getImages(tag) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&page=${this.state.page}&per_page=100&format=json&nojsoncallback=1`;
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({
       url: getImagesUrl,
@@ -53,8 +53,9 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-
-          this.setState({images: this.state.images.concat(res.photos.photo)});
+            this.setState({images: res.photos.photo});
+            //this.setState({images: this.state.images.concat(res.photos.photo)});
+            console.log(this.state.images);
         }
       });
   }
@@ -68,6 +69,10 @@ class Gallery extends React.Component {
    // window.addEventListener('resize', this.handleWindowResize);
   }
 
+    componentWillReceiveProps(props) {
+        this.getImages(props.tag);
+    }
+
   handleScroll () {
     var d = document.documentElement;
     var offset = d.scrollTop + window.innerHeight;
@@ -75,7 +80,7 @@ class Gallery extends React.Component {
 
     if (offset === height) {
         this.setState({page: ++this.state.page});
-        this.getImages(this.props.tag);
+        this.getMoreImages(this.props.tag);
     }
   }
 /*
@@ -83,9 +88,30 @@ class Gallery extends React.Component {
     this.forceUpdate();
    }
 */
-  componentWillReceiveProps(props) {
-    this.getImages(props.tag);
-  }
+
+    getMoreImages(tag) {
+        const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&page=${this.state.page}&per_page=100&format=json&nojsoncallback=1`;
+        const baseUrl = 'https://api.flickr.com/';
+        axios({
+            url: getImagesUrl,
+            baseURL: baseUrl,
+            method: 'GET'
+        })
+            .then(res => res.data)
+    .then(res => {
+            if (
+            res &&
+            res.photos &&
+            res.photos.photo &&
+            res.photos.photo.length > 0
+            ) {
+            //this.setState({images: res.photos.photo});
+            this.setState({images: this.state.images.concat(res.photos.photo)});
+            console.log(this.state.images);
+        }
+    });
+    }
+
 
   removeItem (i) {
     var UpdatedImgArr = this.state.images.slice(); //making shallow copy of the array
