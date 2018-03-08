@@ -56,11 +56,15 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  updateNewGallery(newImage){
+    this.setState({images: newImage});
+  }
+
   render() {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} images={this.state.images} updateNewGallery={this.updateNewGallery.bind(this)}/>;
         })}
       </div>
     );
