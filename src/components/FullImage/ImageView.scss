@@ -1,3 +1,67 @@
-.ImageView{
-  z-index: 99;
+
+#box_container, .image_Container{
+  opacity: 1;
+  display:none;
+  position:fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+
 }
+
+#box_container, .image_Container{
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 940px;
+  max-height: 680px;
+  padding: 1px;
+  background: rgba(0,0,0, .3);
+  top: 0;
+  opacity: 1;
+}
+a{
+
+}
+.imgBox{
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.closeBox {
+
+  margin-left: 5em;
+  font-size: 1.3em;
+  font-weight: 500;
+
+  &.closeBox:hover,
+  .closeBox:focus{
+    color: rgba(0, 119, 128, 0.822);
+    transition: 1s ease-in-out;
+
+
+  }
+}
+ul{
+  text-align: center;
+  margin-top: 2em
+}
+.arrow{
+  display: inline;
+  margin: 2em;
+  &.arrow:hover{
+    color: rgba(0, 119, 128, 0.822);
+    transition: 1s ease-in-out;
+  }
+}
+.fa-arrow-circle-right{
+  font-size: 2em;
+}
+.fa-arrow-circle-left{
+  font-size: 2em;
+}
+

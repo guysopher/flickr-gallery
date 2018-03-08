@@ -7,6 +7,7 @@
   position: relative;
   border: 1px solid white;
 
+
   > div {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
@@ -46,15 +47,14 @@
       border-color: white;
     }
   }
- img{
-  background-size: cover;
-  background-position: center center;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
-  position: relative;
-  border: 1px solid white;
+  img{
+    background-size: cover;
+    background-position: center center;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    position: relative;
+  }
 
- }
 }
 

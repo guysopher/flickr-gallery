@@ -38,7 +38,7 @@ class Image extends React.Component {
     this.setState(this.state);
   }
   closeExpanded = () =>{
-    alert('close');
+    //alert('close');
     this.state.expanded = false;
     this.setState(this.state);
 
@@ -78,7 +78,7 @@ class Image extends React.Component {
           width: this.state.size + 'px',
           height: this.state.size + 'px',
           transform: `rotate(${this.state.degree}deg)`,
-          margin: 0
+
         }}/>
         <div>
           <FontAwesome onClick={this.onRotateEventHandler}className="image-icon" name="sync-alt" title="rotate"/>
