@@ -47,7 +47,9 @@ class Image extends React.Component {
         >
         <div>
           <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+          <div onClick={this.props.onDelete}>
+            <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+          </div>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
