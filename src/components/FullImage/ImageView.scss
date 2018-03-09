@@ -1,47 +1,41 @@
 
 #box_container, .image_Container{
-  opacity: 1;
-  display:none;
-  position:fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-
-}
-
-#box_container, .image_Container{
   display: inline-block;
-  position: relative;
+  position: fix;
   width: 100%;
   height: 100%;
   max-width: 940px;
   max-height: 680px;
-  padding: 1px;
-  background: rgba(0,0,0, .3);
   top: 0;
   opacity: 1;
+  z-index: 100;
 }
-a{
 
-}
 .imgBox{
+  margin-top: 6%;
   width: 100%;
   height: 100%;
   opacity: 1;
 }
+a, .closeBox{
+  margin-top: 2em;
+}
 .closeBox {
-
-  margin-left: 5em;
-  font-size: 1.3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  color: #fff;
+  font-size: 1.5em;
   font-weight: 500;
+
+
 
   &.closeBox:hover,
   .closeBox:focus{
     color: rgba(0, 119, 128, 0.822);
     transition: 1s ease-in-out;
+
+
 
 
   }
@@ -51,17 +45,21 @@ ul{
   margin-top: 2em
 }
 .arrow{
+  color:#fff;
   display: inline;
-  margin: 2em;
+  margin: 3em;
   &.arrow:hover{
     color: rgba(0, 119, 128, 0.822);
-    transition: 1s ease-in-out;
+    transition: 0.5s ease-in-out;
   }
 }
 .fa-arrow-circle-right{
   font-size: 2em;
+  margin-right: 1em;
 }
 .fa-arrow-circle-left{
+
   font-size: 2em;
+
 }
 
