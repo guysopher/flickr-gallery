@@ -25,7 +25,7 @@ class Image extends React.Component {
     const targetSize = 200;
     const imagesPerRow = Math.floor(galleryWidth / targetSize);
     const size = galleryWidth / imagesPerRow;
-    this.setState({size: size});
+    this.setState({size});
   }
 
   componentDidMount() {

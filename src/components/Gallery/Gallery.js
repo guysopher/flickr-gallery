@@ -16,6 +16,7 @@ class Gallery extends React.Component {
       galleryWidth: this.getGalleryWidth()
     };
 
+    this.updateGalleryWidth = this.updateGalleryWidth.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
   }
 
@@ -26,6 +27,7 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
@@ -48,15 +50,23 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', () => this.setState({galleryWidth: this.getGalleryWidth()}));
+    window.addEventListener('resize', this.updateGalleryWidth);
     this.getImages(this.props.tag);
     this.setState({
       galleryWidth: this.getGalleryWidth()
     });
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateGalleryWidth);
+  }
+
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
+  }
+
+  updateGalleryWidth() {
+    this.setState({galleryWidth: this.getGalleryWidth()});
   }
 
   deleteImage(index) {
