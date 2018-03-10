@@ -6,6 +6,8 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
+  transition: transform 0.5s;
+
 
   > div {
     visibility: hidden;
@@ -48,3 +50,6 @@
   }
 }
 
+.buttons{
+  transition: transform 0.5s;
+}
