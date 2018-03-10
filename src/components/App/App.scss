@@ -3,6 +3,10 @@ body, html {
   margin: 0;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 .app-root {
   text-align: center;
 }

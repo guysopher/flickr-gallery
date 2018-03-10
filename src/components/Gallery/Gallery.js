@@ -21,7 +21,7 @@ class Gallery extends React.Component {
 
   getGalleryWidth(){
     try {
-      return document.body.clientWidth;
+      return document.body.getBoundingClientRect().width;
     } catch (e) {
       return 1000;
     }
@@ -48,9 +48,10 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('resize', () => this.setState({galleryWidth: this.getGalleryWidth()}));
     this.getImages(this.props.tag);
     this.setState({
-      galleryWidth: document.body.clientWidth
+      galleryWidth: this.getGalleryWidth()
     });
   }
 
