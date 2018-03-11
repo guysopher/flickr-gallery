@@ -6,7 +6,9 @@ import './Image.scss';
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
-    size: PropTypes.number
+    size: PropTypes.number,
+    onDelete: PropTypes.func,
+    onExpand: PropTypes.func
   };
 
   constructor(props) {
@@ -18,7 +20,7 @@ class Image extends React.Component {
     this.rotate = this.rotate.bind(this);
   }
 
-  urlFromDto(dto) {
+  static urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
@@ -31,7 +33,7 @@ class Image extends React.Component {
       <div
         className="image-root"
         style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+          backgroundImage: `url(${Image.urlFromDto(this.props.dto)})`,
           width: this.props.size + 'px',
           height: this.props.size + 'px',
           transform: `rotate(${this.state.angle}deg`
@@ -44,7 +46,9 @@ class Image extends React.Component {
           <div onClick={this.props.onDelete}>
             <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
           </div>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <div onClick={this.props.onExpand}>
+            <FontAwesome className="image-icon" name="expand" title="expand"/>
+          </div>
         </div>
       </div>
     );

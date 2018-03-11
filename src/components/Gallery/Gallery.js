@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
+import GalleryPopup from '../GalleryPopup';
 import './Gallery.scss';
 
 class Gallery extends React.Component {
@@ -16,12 +17,17 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      imageSize: this.calcImageSize()
+      imageSize: this.calcImageSize(),
+      popupIndex: -1
     };
 
     this.updateImageSize = this.updateImageSize.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
+    this.expandImage = this.expandImage.bind(this);
+    this.prevImagePopup = this.prevImagePopup.bind(this);
+    this.nextImagePopup = this.nextImagePopup.bind(this);
+    this.closeImagePopup = this.closeImagePopup.bind(this);
   }
 
   getGalleryWidth(){
@@ -106,14 +112,35 @@ class Gallery extends React.Component {
     this.setState({images: [...this.state.images.slice(0, index), ...this.state.images.slice(index+1)]});
   }
 
+  expandImage(index) {
+    this.setState({popupIndex: index});
+  }
+
+  closeImagePopup() {
+    this.setState({popupIndex: -1});
+  }
+
+  prevImagePopup() {
+    this.setState({popupIndex: Math.max(0, this.state.popupIndex-1)});
+  }
+
+  nextImagePopup() {
+    this.setState({popupIndex: Math.min(this.state.images.length, this.state.popupIndex+1)});
+  }
+
   render() {
     return (
       <div className="gallery-root">
+        {this.state.popupIndex !== -1 && <GalleryPopup dto={this.state.images[this.state.popupIndex]}
+                                                       onPrev={this.prevImagePopup}
+                                                       onNext={this.nextImagePopup}
+                                                       onClose={this.closeImagePopup} />}
         {this.state.images.map((dto, index) => {
           return <Image key={'image-' + dto.id}
                         dto={dto}
                         size={this.state.imageSize}
-                        onDelete={() => this.deleteImage(index)}/>;
+                        onDelete={() => this.deleteImage(index)}
+                        onExpand={() => this.expandImage(index)} />;
         })}
       </div>
     );
