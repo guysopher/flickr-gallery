@@ -6,36 +6,16 @@ import './Image.scss';
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
-    galleryWidth: PropTypes.number
+    size: PropTypes.number
   };
 
   constructor(props) {
     super(props);
-    this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200,
       angle: 0
     };
 
     this.rotate = this.rotate.bind(this);
-  }
-
-  calcImageSize() {
-    const {galleryWidth} = this.props;
-    const targetSize = 200;
-    const imagesPerRow = Math.floor(galleryWidth / targetSize);
-    const size = galleryWidth / imagesPerRow;
-    this.setState({size});
-  }
-
-  componentDidMount() {
-    this.calcImageSize();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.galleryWidth !== this.props.galleryWidth) {
-      this.calcImageSize();
-    }
   }
 
   urlFromDto(dto) {
@@ -52,8 +32,8 @@ class Image extends React.Component {
         className="image-root"
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.size + 'px',
-          height: this.state.size + 'px',
+          width: this.props.size + 'px',
+          height: this.props.size + 'px',
           transform: `rotate(${this.state.angle}deg`
         }}
         >
