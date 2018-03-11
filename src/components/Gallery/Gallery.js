@@ -13,7 +13,8 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      loadImages: false
     };
   }
 
@@ -24,6 +25,7 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
@@ -47,9 +49,12 @@ class Gallery extends React.Component {
 
   componentDidMount() {
     this.getImages(this.props.tag);
-    this.setState({
-      galleryWidth: document.body.clientWidth
-    });
+    this.setState({galleryWidth: document.body.clientWidth});
+    window.addEventListener('resize',  ()=> this.setState({galleryWidth:this.getGalleryWidth()}));
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('resize', ()=> this.setState({galleryWidth:this.getGalleryWidth()}));
   }
 
   componentWillReceiveProps(props) {

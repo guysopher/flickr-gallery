@@ -24,8 +24,7 @@ class Image extends React.Component {
     };
   }
 
-  calcImageSize() {
-    const {galleryWidth} = this.props;
+  calcImageSize(galleryWidth) {
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -35,7 +34,12 @@ class Image extends React.Component {
   }
 
   componentDidMount() {
-    this.calcImageSize();
+    this.calcImageSize(this.props.galleryWidth);
+  }
+
+  componentWillReceiveProps(props) {
+    this.calcImageSize(props.galleryWidth);
+
   }
 
   urlFromDto(dto) {
