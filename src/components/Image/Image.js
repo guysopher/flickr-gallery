@@ -34,7 +34,7 @@ class Image extends React.Component {
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
-
+  
   render() {
     return (
       <div
@@ -47,7 +47,7 @@ class Image extends React.Component {
         >
         <div>
           <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onclick="document.getElementByID("").style.visibilty="hidden";"/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
