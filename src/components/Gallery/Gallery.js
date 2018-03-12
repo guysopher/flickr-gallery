@@ -17,11 +17,11 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      imageSize: this.calcImageSize(),
+      galleryWidth: this.getGalleryWidth(),
       popupIndex: -1
     };
 
-    this.updateImageSize = this.updateImageSize.bind(this);
+    this.updateGalleryWidth = this.updateGalleryWidth.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
     this.expandImage = this.expandImage.bind(this);
@@ -36,13 +36,6 @@ class Gallery extends React.Component {
     } catch (e) {
       return 1000;
     }
-  }
-
-  calcImageSize() {
-    const galleryWidth = this.getGalleryWidth();
-    const targetSize = 200;
-    const imagesPerRow = Math.floor(galleryWidth / targetSize);
-    return galleryWidth / imagesPerRow;
   }
 
   getImages(tag) {
@@ -77,14 +70,14 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateImageSize);
+    window.addEventListener('resize', this.updateGalleryWidth);
     window.addEventListener('scroll', this.onScroll);
     this.getImages(this.props.tag);
-    this.updateImageSize();
+    this.updateGalleryWidth();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateImageSize);
+    window.removeEventListener('resize', this.updateGalleryWidth);
     window.removeEventListener('scroll', this.onScroll);
   }
 
@@ -93,12 +86,13 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
-  updateImageSize() {
-    this.setState({imageSize: this.calcImageSize()});
+  updateGalleryWidth() {
+    this.setState({galleryWidth: this.getGalleryWidth()});
   }
 
   onScroll() {
-    const loadMore = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2 * this.state.imageSize;
+    const loadMore = window.innerHeight + window.pageYOffset >=
+      document.body.offsetHeight - 2 * 200;
 
     if (!this.loading && loadMore) {
       this.loading  = true;
@@ -137,7 +131,7 @@ class Gallery extends React.Component {
         {this.state.images.map((dto, index) => {
           return <Image key={'image-' + dto.id}
                         dto={dto}
-                        size={this.state.imageSize}
+                        galleryWidth={this.state.galleryWidth}
                         onDelete={() => this.deleteImage(index)}
                         onExpand={() => this.expandImage(index)} />;
         })}
