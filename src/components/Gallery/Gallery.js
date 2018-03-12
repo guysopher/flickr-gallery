@@ -56,7 +56,6 @@ class Gallery extends React.Component {
    * Update the gallery width to the current inner window width
    */
   updateGalleryWidth(){
-    console.log('update3 size')
     this.setState({galleryWidth: document.body.clientWidth})
   }
 
@@ -88,15 +87,14 @@ class Gallery extends React.Component {
    * handleScroll - An event handler which loads more photos as the user get to the bottom of the page
    */
   handleScroll() {
-    console.log('handle log');
-    const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body;
     const html = document.documentElement;
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
+      alert('I guess you want more beautiful images. dont worry we got your back');
       this.setState({pagesCount: this.state.pagesCount + 100});
-      console.log('pages count' + this.state.pagesCount);
       this.getImages(this.tag);
     }
   }
@@ -143,7 +141,6 @@ class Gallery extends React.Component {
    * render - In our case the render function create the images component based on the gallery data
    */
   render() {
-    console.log('re render')
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {

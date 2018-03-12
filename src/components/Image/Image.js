@@ -52,7 +52,6 @@ class Image extends React.Component {
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
     const size = sizeWithBorders /imagesPerRow ;
-    console.log('calcImageSize')
     this.setState({
       size
     });
@@ -62,12 +61,12 @@ class Image extends React.Component {
    */
   updateImageSize() {
     const {galleryWidth} = this.props;
-    console.log('update gallery ' + galleryWidth)
+//  console.log('update gallery ' + galleryWidth)
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
     const size = sizeWithBorders /imagesPerRow ;
-    console.log('update15 size ' + size)
+//  console.log('update15 size ' + size)
     return size;
   }
 
@@ -107,7 +106,6 @@ class Image extends React.Component {
    * render - In our case the render function updates the image size and print it on screen
    */
   render(){
-    console.log('image render');
     return (
       <div
         id={this.props.id}
