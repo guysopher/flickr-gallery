@@ -98,10 +98,9 @@ class Gallery extends React.Component {
   }
 
   onScroll() {
-    const galleryWidth = this.getGalleryWidth();
-    const imagesPerRow = Math.floor(galleryWidth / this.state.imageSize);
-    const rows = this.state.images.length / imagesPerRow;
-    if (!this.loading && ((rows * this.state.imageSize - window.scrollY) < (3 * this.state.imageSize))) {
+    const loadMore = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2 * this.state.imageSize;
+
+    if (!this.loading && loadMore) {
       this.loading  = true;
       this.page++;
       this.getImages(this.props.tag);
