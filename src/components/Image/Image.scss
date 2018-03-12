@@ -6,6 +6,11 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
+  margin: 0px;
+  padding: 0px;
+  object-fit: cover;
+  float: left;
+  height: 200px;
 
   > div {
     visibility: hidden;
@@ -17,7 +22,7 @@
     top: 0;
     left: 0;
     color: white;
-    padding: 15px;
+    padding: 0px;
     text-align: center;
     box-sizing: border-box;
     white-space: pre;
@@ -39,6 +44,7 @@
     cursor: pointer;
     padding: 12px;
     margin: 3px;
+    transform: none;
 
     &:hover {
       color: white;

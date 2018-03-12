@@ -38,5 +38,22 @@ describe('Image', () => {
     const remainder = galleryWidth % imageSize;
     expect(remainder).to.be.lessThan(1);
   });
+  it('image should be set to rotate 0 by default', () => {
+    const imageTransition = wrapper.state().rotation;
+    expect(imageTransition).to.be.equal(0);
+  });
 
+  it('when delete button is clicked delete image is called', () => {
+    const spy = sinon.spy(Image.prototype, 'deleteImage');
+    wrapper = mountImage();
+    wrapper.find('.imageDelete').simulate('click');
+    expect(spy.called).to.be.true;
+  });
+
+  it('when rotate button is clicked rotate function is called', () => {
+    const spy = sinon.spy(Image.prototype, 'rotate');
+    wrapper = mountImage();
+    wrapper.find('.rotateImage').simulate('click');
+    expect(spy.called).to.be.true;
+  });
 });

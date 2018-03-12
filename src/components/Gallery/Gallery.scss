@@ -1,11 +1,12 @@
 .gallery-root {
   float: left;
-  object-fit: fill;
+  object-fit: cover;
+  margin: 0px;
 }
 
 .gallery-header {
   background-color: #222;
-  padding: 10px;
+  padding: 300px;
   color: white;
   font-size: 20pt;
 }
