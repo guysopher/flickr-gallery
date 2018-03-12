@@ -13,8 +13,11 @@ class Gallery extends React.Component {
   constructor(props) {
     super(props);
 
+    window.addEventListener('resize', (function(){
+      this.setState(this.state);
+    }).bind(this));
     window.addEventListener('scroll', (function() {
-      if(window.scrollY + window.innerHeight == document.documentElement.scrollHeight) {
+      if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
           this.getImages(this.props.tag)
         }
       }).bind(this));
@@ -62,6 +65,7 @@ removeImage = (id) =>{
   }
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1&page=${this.state.page}`;
+    console.log(getImagesUrl);
     const baseUrl = 'https://api.flickr.com/';
     axios({
       url: getImagesUrl,

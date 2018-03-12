@@ -1,7 +1,10 @@
+
 .gallery-root {
-  max-width: 100%;
-  min-height: 48%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
   text-align: center;
+  width: 100vw;
 
 }
 
@@ -15,3 +18,8 @@
 .gallery-intro {
   font-size: 15pt;
 }
+
+
+
+
+
