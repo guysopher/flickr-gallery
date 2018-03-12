@@ -1,6 +1,6 @@
 /****************************************************************************/
 /*                                                                          */
-/* This file contains the photo Image Component                           */
+/* This file contains the photo Image Component                             */
 /*                                                                          */
 /*                                                                          */
 /****************************************************************************/
@@ -23,7 +23,7 @@ import './Image.scss';
  */
 class Image extends React.Component {
   static propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.string,
     dto: PropTypes.object,
     galleryWidth: PropTypes.number,
     removeImage: PropTypes.func
@@ -50,7 +50,8 @@ class Image extends React.Component {
     const {galleryWidth} = this.props;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth - (imagesPerRow*2-2)) / imagesPerRow;
+    const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
+    const size = sizeWithBorders /imagesPerRow ;
     console.log('calcImageSize')
     this.setState({
       size
@@ -64,8 +65,8 @@ class Image extends React.Component {
     console.log('update gallery ' + galleryWidth)
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
-    console.log('update perRow ' + imagesPerRow)
-    const size = (galleryWidth - imagesPerRow - 1) /imagesPerRow ;
+    const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
+    const size = sizeWithBorders /imagesPerRow ;
     console.log('update15 size ' + size)
     return size;
   }

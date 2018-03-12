@@ -8,10 +8,22 @@ body, html {
 }
 
 .app-header {
-  background-color: #222;
+  background-color: antiquewhite;
   padding: 10px;
-  color: white;
+  color: black;
+  font-family: Impact, Charcoal, sans-serif;
   font-size: 20pt;
+  text-shadow: 0 1px 0 #bbb,
+  0 2px 0 #bbb,
+  0 3px 0 #aaa,
+  0 4px 0 #aaa,
+  0 5px 0 #999,
+  0 6px 1px #000,
+  0 0px 3px #000,
+  0 1px 3px #000,
+  0 3px 5px #000,
+  0 5px 10px #000,
+  0 5px 20px #000;
 }
 
 .app-input {

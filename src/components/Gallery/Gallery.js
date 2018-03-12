@@ -14,7 +14,7 @@ import './Gallery.scss';
 /*
  * Gallery Component
  *
- * Tag- the current tag the user has requested photo of
+ * Tag- the current tag the user has requested images of
  * Images - A list consist the photo related to the tag
  * Gallery width- the width of the inner window
  * Pages count - A counting var which save the number of the photo need to be shown

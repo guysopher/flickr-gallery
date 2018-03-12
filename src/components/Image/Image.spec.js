@@ -11,10 +11,13 @@ describe('Image', () => {
 
   let wrapper;
   const galleryWidth = 1111;
+  const targetsize = 200
+  const deleteFunction = function (id) {
 
+  }
   const mountImage = () => {
     return shallow(
-      <Image dto={sampleImage} galleryWidth={galleryWidth}/>,
+      <Image dto={sampleImage} id={sampleImage.id} removeImage={deleteFunction} galleryWidth={galleryWidth}/>,
       {lifecycleExperimental: true, attachTo: document.createElement('div')}
     );
   };
@@ -35,8 +38,10 @@ describe('Image', () => {
 
   it('calculate image size correctly', () => {
     const imageSize = wrapper.state().size;
-    const remainder = galleryWidth % imageSize;
-    expect(remainder).to.be.lessThan(1);
+    console.log(imageSize);
+    const remainder = Math.round(targetsize / imageSize);
+    console.log(remainder);
+    expect(remainder).to.be.equal(1);
   });
   it('image should be set to rotate 0 by default', () => {
     const imageTransition = wrapper.state().rotation;
