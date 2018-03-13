@@ -38,9 +38,10 @@ describe('Image', () => {
 
   it('calculate image size correctly', () => {
     const imageSize = wrapper.state().size;
-    const remainder = Math.round(targetsize / imageSize);
-    expect(remainder).to.be.equal(1);
+    const remainder = galleryWidth % imageSize;
+    expect(remainder).to.be.lessThan(1);
   });
+
   it('image should be set to rotate 0 by default', () => {
     const imageTransition = wrapper.state().rotation;
     expect(imageTransition).to.be.equal(0);

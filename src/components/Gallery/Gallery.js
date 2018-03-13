@@ -87,12 +87,11 @@ class Gallery extends React.Component {
    * handleScroll - An event handler which loads more photos as the user get to the bottom of the page
    */
   handleScroll() {
-    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-    const body = document.body;
-    const html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-    const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight) {
+    let Top = document.documentElement.scrollTop || document.body.scrollTop;
+    let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    let mouseHeight = document.documentElement.clientHeight || window.innerHeight;
+    if (Math.ceil(Top + mouseHeight) >= scrollHeight) // Reached to the bottom
+     {
       alert('I guess you want more beautiful images. dont worry we got your back');
       this.setState({pagesCount: this.state.pagesCount + 100});
       this.getImages(this.tag);

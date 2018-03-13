@@ -36,7 +36,6 @@ class Image extends React.Component {
     this.calcImageSize = this.calcImageSize.bind(this);
     this.rotate = this.rotate.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
-    this.updateImageSize=this.updateImageSize.bind(this);
     this.state = {
       size: 200,
       rotation: 0,
@@ -46,32 +45,21 @@ class Image extends React.Component {
   /*
    * calcImageSize - Determines the size of each image for the initial data
    */
-  calcImageSize() {
-    const {galleryWidth} = this.props;
+  calcImageSize(galleryWidth) {
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
-    const size = sizeWithBorders /imagesPerRow ;
+    const size = (galleryWidth / imagesPerRow);
     this.setState({
       size
     });
   }
-  /*
-   * updateImageSize - Determines the size of each image after changes has made
-   */
-  updateImageSize() {
-    const {galleryWidth} = this.props;
-//  console.log('update gallery ' + galleryWidth)
-    const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const sizeWithBorders = galleryWidth - imagesPerRow*2; //calculating the size of the gallery with the borders
-    const size = sizeWithBorders /imagesPerRow ;
-//  console.log('update15 size ' + size)
-    return size;
+  componentDidMount() {
+    this.calcImageSize(this.props.galleryWidth);
   }
 
-  componentDidMount() {
-    this.calcImageSize();
+  componentWillReceiveProps(props) {
+    this.calcImageSize(props.galleryWidth);
+
   }
 
   /*
@@ -113,8 +101,8 @@ class Image extends React.Component {
         style={{
           transform: `rotate(${this.state.rotation}deg)`,
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.updateImageSize() + 'px',
-          height:this.updateImageSize() + 'px'
+          width: this.state.size + 'px',
+          height:this.state.size + 'px'
         }}
       >
         <div style={{transform: `rotate(${this.state.buttonRotation}deg)`}}>
