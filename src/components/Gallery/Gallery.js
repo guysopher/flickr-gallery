@@ -4,6 +4,7 @@ import axios from 'axios';
 import Image from '../Image';
 import FontAwesome from 'react-fontawesome';
 import './Gallery.scss';
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
 class Gallery extends React.Component {
   static propTypes = {
@@ -68,9 +69,13 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  updateNewGallery(newImagesArray){
+    this.setState({images: newImagesArray});
+  }
+
   scrollHandler(){
-    let scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-    let scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
     let clientHeight = document.documentElement.clientHeight || window.innerHeight;
     let scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
@@ -78,23 +83,32 @@ class Gallery extends React.Component {
       if(this.state.loadImages){
         return;
       }
-
-      setTimeout(this.getImages(this.props.tag),5000);
+      this.getImages(this.props.tag);
       this.setState({loadImages:true})
 
     }
   }
 
-  updateNewGallery(newImagesArray){
-    this.setState({images: newImagesArray});
-  }
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState({
+      images: arrayMove(this.state.images, oldIndex, newIndex)
+    });
+  };
 
   render() {
+    const SortableImage = SortableElement(Image);
+    const SortableGallery = SortableContainer(() => {
+      return (
+        <div>
+          {this.state.images.map((dto, index) => (
+            <SortableImage key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} images={this.state.images} updateNewGallery={this.updateNewGallery.bind(this)} index={index}  />
+          ))}
+        </div>
+      );
+    });
     return (
       <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} images={this.state.images}  updateNewGallery={this.updateNewGallery.bind(this)}/>;
-        })}
+         <SortableGallery images={this.state.images} axis={'xy'} pressDelay={150} onSortEnd={this.onSortEnd} />
         {(() => {
           if (this.state.loadImages) {
             return(
@@ -110,3 +124,4 @@ class Gallery extends React.Component {
 }
 
 export default Gallery;
+
