@@ -1,0 +1,137 @@
+.backdrop-style {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background-color: rgba(0,0,0,0.5);
+   padding: 30px;
+}
+
+.modal-style {
+  border-radius: 30px;
+  position: relative;
+  margin:0 auto;
+  height: 100%;
+  z-index: 1;  
+  padding-top: 0px;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  margin:auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+/* The Close Button */
+.close {
+  color:white;
+  font-size:30px;
+  padding:15px 15px;
+  position:absolute;
+  right:0;
+  text-align:center;
+  text-decoration:none;
+  top:0;
+  z-index: 1;
+}
+
+.close:hover,.close:focus,
+.prev:hover,.prev:focus,
+.next:hover,.next:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Content (image) */
+.modal-content {
+  position: auto;
+  margin: auto;
+  display: block;
+  padding-top: 10px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 400px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px;
+  height: 50px;
+}
+
+/* Add Animation */
+.modal-content, #caption {    
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0px;
+}
+.prev{
+  left: 0px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,focus
+.next:hover,focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.row:after {
+  position: absolute;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* five columns side by side */
+.column {
+  float: left;
+  width: 20%;
+}
+
+.column-image{
+  position: center;
+  padding:3px;
+  width:95%;
+  max-width: auto;
+  max-height: 200px;
+}
