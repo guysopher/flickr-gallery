@@ -4,7 +4,6 @@ import FontAwesome from 'react-fontawesome';
 import LightBox from 'react-image-lightbox';
 import './Image.scss';
 
-
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
@@ -19,8 +18,7 @@ class Image extends React.Component {
       size: 200,
       rotation: 0,
       photoIndex :0,
-      isGalleryMode: false
-
+      isExpandMode: false
     };
   }
 
@@ -62,13 +60,13 @@ class Image extends React.Component {
     this.props.updateNewGallery(newImagesArr);
   }
 
-  findIndexById(){
-    const id = this.props.dto.id;
-    return this.props.images.findIndex(image => image.id === id);
+  expandImage(){
+    this.setState({isExpandMode:true,photoIndex: this.props.images.findIndex(image => image.id === this.props.dto.id)})
+
   }
 
   render() {
-    const {isGalleryMode , photoIndex} = this.state;
+    const {isExpandMode ,photoIndex} = this.state;
     return (
       <div
         className="image-root"  style={{
@@ -79,31 +77,24 @@ class Image extends React.Component {
         }}
       >
         <div style={{transform: `rotate(${-this.state.rotation }deg)`}}>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.rotateImage}/>
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.rotateImage.bind(this)}/>
           <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={this.deleteImage.bind(this)}/>
-          <FontAwesome className="image-icon" name="expand" title="expand" onClick={()=> this.setState({isGalleryMode:true,photoIndex: this.findIndexById()})}/>
-          {isGalleryMode &&(
+          <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.expandImage.bind(this)}/>
+          {isExpandMode &&(
             <LightBox
+              imageTitle={this.props.images[photoIndex].title}
               mainSrc={`${this.urlFromDto(this.props.images[photoIndex])}`}
               nextSrc={`${this.urlFromDto(this.props.images[(photoIndex + 1) % this.props.images.length])}`}
               prevSrc={`${this.urlFromDto(this.props.images[(photoIndex + this.props.images.length - 1) % this.props.images.length])}`}
-              onCloseRequest={() => this.setState({ isGalleryMode: false })}
-              onMovePrevRequest={() =>
-                this.setState({
-                  photoIndex: (photoIndex + this.props.images.length - 1) % this.props.images.length
-                })
-              }
-              onMoveNextRequest={() =>
-                this.setState({
-                  photoIndex: (photoIndex + 1) % this.props.images.length
-                })
-              }
+              onCloseRequest={() => this.setState({ isExpandMode: false })}
+              onMovePrevRequest={() => this.setState({photoIndex: (photoIndex + this.props.images.length - 1) % this.props.images.length})}
+              onMoveNextRequest={() => this.setState({photoIndex: (photoIndex + 1) % this.props.images.length})}
               clickOutsideToClose={true}
-              imageTitle={this.props.images[photoIndex].title}
-            />
-        )}
+              animationOnKeyInput={true}
+            />)}
         </div>
       </div>
+
     );
   }
 
