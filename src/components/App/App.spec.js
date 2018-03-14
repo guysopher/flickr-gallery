@@ -16,7 +16,7 @@ describe('App', () => {
   afterEach(() => wrapper.detach());
 
   it('renders a title correctly', () => {
-    expect(wrapper.find('h2').length).to.eq(1);
+    expect(wrapper.find('svg').length).to.eq(1);
   });
 
   it('renders the search input correctly', () => {

@@ -1,0 +1,21 @@
+.app-logo {
+  width: 151px;
+  height: 41px;
+  margin-right: 10px;
+  transition: margin .125s ease;
+
+  svg {
+    transform: scale(.5);
+    transform-origin: 0 0;
+
+  }
+
+  &:hover {
+    cursor: pointer;
+    svg {
+      path,rect,polygon{
+        fill: white;
+      }
+    }
+  }
+}

@@ -9,18 +9,28 @@ body, html {
 
 .app-header {
   background-color: #222;
-  padding: 10px;
+  padding: 35px;
   color: white;
   font-size: 20pt;
 }
 
 .app-input {
-  line-height: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
   font-size: 14px;
-  padding: 0 8px;
-  color: #666;
-  width: 400px;
-  margin-bottom: 30px;
+  height: 37px;
+  width: 20%;
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(#ff0084, .7);
+  outline: none;
+  border-radius: 37px;
+  padding: 0 10px;
+  pointer-events: all;
+  transition: border .25s ease, width .125s ease .125s;
+
+  &:focus {
+    border: 2px solid #ff0084;
+    width: 30%;
+  }
 }
