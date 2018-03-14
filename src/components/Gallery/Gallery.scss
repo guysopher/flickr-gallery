@@ -1,5 +1,6 @@
 .gallery-root {
   text-align: center;
+  background: #edeeef;
 }
 
 .gallery-header {
@@ -11,4 +12,12 @@
 
 .gallery-intro {
   font-size: 15pt;
+}
+
+.data-loading {
+  display: block;
+  padding: 15px;
+  text-align: center;
+  background-color: #d1d1d1;
+  border: 0;
 }
