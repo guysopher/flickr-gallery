@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Gallery from '../Gallery';
+import Logo from '../Logo';
 
 class App extends React.Component {
   static propTypes = {
@@ -9,7 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tag: 'art'
+      tag: 'Golden ratio'
     };
   }
 
@@ -17,7 +18,7 @@ class App extends React.Component {
     return (
       <div className="app-root">
         <div className="app-header">
-          <h2>Flickr Gallery</h2>
+          <Logo/>
           <input className="app-input" onChange={event => this.setState({tag: event.target.value})} value={this.state.tag}/>
         </div>
         <Gallery tag={this.state.tag}/>
