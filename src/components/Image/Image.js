@@ -23,7 +23,7 @@ class Image extends React.Component {
  
   calcImageSize() {
     //const {galleryWidth} = this.props;
-const galleryWidth = document.body.clientWidth;
+	const galleryWidth = document.body.clientWidth;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);              
     const size = (galleryWidth / imagesPerRow);
@@ -38,7 +38,7 @@ const galleryWidth = document.body.clientWidth;
 
   componentDidMount() {
     this.calcImageSize();
-window.addEventListener("resize", this.resize.bind(this));
+	window.addEventListener("resize", this.resize.bind(this));
   }
 
   urlFromDto(dto) {
@@ -78,5 +78,7 @@ window.addEventListener("resize", this.resize.bind(this));
     );
   }
 }
+
+
 
  export default Image;
