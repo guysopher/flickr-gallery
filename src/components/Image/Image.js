@@ -13,12 +13,21 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      rotatation: 0
     };
   }
 
+  getGalleryWidth(){
+    try {
+      return document.body.clientWidth;
+    } catch (e) {
+      return 1000;
+    }
+  }
+
   calcImageSize() {
-    const {galleryWidth} = this.props;
+    const galleryWidth = this.getGalleryWidth();
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -29,6 +38,11 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+    window.addEventListener('resize', this.calcImageSize);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.calcImageSize);
   }
 
   urlFromDto(dto) {
@@ -40,14 +54,21 @@ class Image extends React.Component {
       <div
         className="image-root"
         style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
           height: this.state.size + 'px'
         }}
         >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+        <div className="img" style={{
+          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+          transform: `rotate(${this.state.rotatation*90}deg)`
+        }}></div>
+        <div className="buttons">
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={event=>{
+            this.setState({rotatation:this.state.rotatation+1})
+          }}/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={event => {
+            this.props.deleteImage(this.props.index);
+          }}/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>

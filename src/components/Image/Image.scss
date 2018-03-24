@@ -1,13 +1,18 @@
 .image-root {
-  background-size: cover;
-  background-position: center center;
   display: inline-block;
   vertical-align: top;
   box-sizing: border-box;
   position: relative;
   border: 1px solid white;
 
-  > div {
+  .img{
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 100%;
+  }
+
+  > div.buttons {
     visibility: hidden;
     background: rgba(0, 0, 0, 0.7);
     cursor: pointer;
@@ -27,7 +32,7 @@
     justify-content: center;
   }
 
-  &:hover > div {
+  &:hover > div.buttons {
     visibility: visible;
   }
 
