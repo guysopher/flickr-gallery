@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.scss';
 import Gallery from '../Gallery';
-
 class App extends React.Component {
   static propTypes = {
   };
