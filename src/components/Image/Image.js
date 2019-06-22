@@ -53,7 +53,7 @@ class Image extends React.Component {
         }}>
           <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.rotateClick}/>
           <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.deleteClick}/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+          <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.props.showLarge}/>
         </div>
       </div>
     );

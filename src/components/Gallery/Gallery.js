@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
+import LargeImage from '../LargeImage';
 import './Gallery.scss';
 
 class Gallery extends React.Component {
@@ -14,7 +15,10 @@ class Gallery extends React.Component {
     this.state = {
       images: [],
       galleryWidth: this.getGalleryWidth(),
-      messagesIndex: 0
+      messagesIndex: 0,
+      isShowLargeImage: false,
+      largeImage: '',
+      largeIndex: 0
     };
   }
 
@@ -66,7 +70,6 @@ class Gallery extends React.Component {
      arr.splice(index, 1);
      this.setState({images: arr,
                     messagesIndex: (Math.floor(Math.random() * (num_of_messages)))})
-     /**/
    }
   
    handleRotate(dto){
@@ -80,17 +83,73 @@ class Gallery extends React.Component {
     var index = arr.indexOf(dto);
     arr[index] = temp;
     this.setState({images: arr})
-
    }
 
+  updateIndex(index) {
+    this.setState({largeIndex: index})
+    this.setState({largeImage: this.state.images[index]});
+}
+   showLargeImage(dto){
+    this.updateIndex(this.state.images.indexOf(dto));
+    this.setState({isShowLargeImage: true});
+   }
+
+   closeLarge () {
+    this.setState({isShowLargeImage: false})
+   }
+
+   leftLarge(){
+     var tableLen = this.state.images.length;
+     var index = this.state.largeIndex - 1
+     if (index < 0) {
+       index = tableLen - 1;
+      }
+     this.updateIndex(index);
+}
+   rightLarge(){
+     var tableLen = this.state.images.length;
+     var index = this.state.largeIndex + 1
+     if (index === tableLen) {
+       index = 0;
+    }
+     this.updateIndex(index);
+
+   }
   render() {
-    return (
-      <div className="gallery-root">
+    let display;
+    if (this.state.isShowLargeImage){
+    // if (this.state.showlarge) {
+      display =
+      <div>
+        <LargeImage dto={this.state.largeImage} 
+        closeLarge={() => this.closeLarge()}
+        leftLarge={() => this.leftLarge()}
+        rightLarge={() => this.rightLarge()}/>
+        
+        <div className="gallery-root">
         {this.state.images.map(dto => {
           return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
-            deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}/* onClick={() => this.removePic}*/ />;
+            deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}
+            showLarge={() => this.showLargeImage(dto)}
+             />;
         })}
       </div>
+      </div>
+    } else {
+    display =
+    <div className="gallery-root">
+    {this.state.images.map(dto => {
+      return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
+        deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}
+        showLarge={() => this.showLargeImage(dto)} />;
+    })}
+  </div>
+    }
+
+    return (
+      <div>
+    {display}
+    </div>
     );
   }
 }

@@ -1,0 +1,33 @@
+.ImageLarge {
+  // background-color: red;
+    // float: top;
+    position: fixed;
+     top: 20px;
+     height: 50%;
+     left: 2%;
+     width: 96%;
+
+  }
+
+  .closebtn{
+    float: right;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+  .button {
+    position: relative;
+    top: 40%;
+    background-color: Transparent;
+    color: hsl(0, 0%, 95%);
+    font-weight: yes;
+    font-size: 200%;
+    cursor: pointer;
+    outline:none;
+  }
+    
+    .closebtn, .button {
+      border: none;
+   }
+  
