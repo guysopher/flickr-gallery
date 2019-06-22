@@ -13,7 +13,8 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      messagesIndex: 0
     };
   }
 
@@ -56,11 +57,38 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  handleDelete(dto){
+    var messages = ['This image?... interesting...', 'And now this...?', 'Didn\'t see that coming...']
+    var num_of_messages = messages.length;
+    alert(messages[this.state.messagesIndex]);
+     var arr = this.state.images.slice();
+     var index = arr.indexOf(dto);
+     arr.splice(index, 1);
+     this.setState({images: arr,
+                    messagesIndex: (Math.floor(Math.random() * (num_of_messages)))})
+     /**/
+   }
+  
+   handleRotate(dto){
+    var temp = dto;
+    if (temp.rotateAngle) {
+      temp.rotateAngle = ((temp.rotateAngle + 90) % 360);
+      } else {
+        temp.rotateAngle = 90;
+      }
+    var arr = this.state.images;
+    var index = arr.indexOf(dto);
+    arr[index] = temp;
+    this.setState({images: arr})
+
+   }
+
   render() {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
+            deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}/* onClick={() => this.removePic}*/ />;
         })}
       </div>
     );

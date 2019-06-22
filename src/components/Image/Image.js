@@ -34,24 +34,31 @@ class Image extends React.Component {
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
-
+  
   render() {
+   const rotateAngle = this.props.dto.rotateAngle;
     return (
       <div
         className="image-root"
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          height: this.state.size + 'px',
+          transform: `rotate(${rotateAngle}deg)`
         }}
         >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+        <div
+         style={{
+         transform: `rotate(-${rotateAngle}deg)`
+        }}>
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.rotateClick}/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.deleteClick}/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
     );
+  // }
+  // return;
   }
 }
 
