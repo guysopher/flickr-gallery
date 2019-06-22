@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
-
+import Lightbox from 'react-image-lightbox';
+ 
 class Gallery extends React.Component {
   static propTypes = {
     tag: PropTypes.string
@@ -13,7 +14,9 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      isLightBoxOpen: false,
+      imageIndex: 0
     };
   }
 
@@ -63,17 +66,54 @@ class Gallery extends React.Component {
     this.setState({images: images})
   }
   
+  handleExpand = (index) => {
+    this.setState({
+      imageIndex: index,
+      isLightBoxOpen: true
+    });
+  }
+
+  urlFromDto(dto) {
+    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
+  }
+
   render() {
+    const currentIndex = this.state.imageIndex;
+    const imagesLength = this.state.images.length;
+    const nextIndex = (currentIndex + imagesLength + 1) % imagesLength;
+    const prevIndex = (currentIndex + imagesLength - 1) % imagesLength;
+
     return (
-      <div className="gallery-root">
-        {this.state.images.map((dto, index) => {
-          return (<Image
-            key={'image-' + dto.id}
-            dto={dto}
-            galleryWidth={this.state.galleryWidth}
-            onDelete={this.handleDelete.bind(this, index)}
-          />);
-        })}
+      <div>
+        {this.state.isLightBoxOpen && (<Lightbox
+          mainSrc={this.urlFromDto(this.state.images[currentIndex])}
+          onCloseRequest={() => this.setState({ isLightBoxOpen: false })}
+          nextSrc={this.urlFromDto(this.state.images[nextIndex])}
+          prevSrc={this.urlFromDto(this.state.images[prevIndex])}
+          onMovePrevRequest={() =>
+            this.setState({
+              imageIndex: prevIndex
+            })
+          }
+          onMoveNextRequest={() =>
+            this.setState({
+              imageIndex: nextIndex
+            })
+          }
+          enableZoom={false}
+        />)}
+
+        <div className="gallery-root">
+          {this.state.images.map((dto, index) => {
+            return (<Image
+              key={'image-' + dto.id}
+              url={this.urlFromDto(dto)}
+              galleryWidth={this.state.galleryWidth}
+              onDelete={this.handleDelete.bind(this, index)}
+              onExpand={this.handleExpand.bind(this, index)}
+            />);
+          })}
+        </div>
       </div>
     );
   }

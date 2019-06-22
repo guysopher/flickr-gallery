@@ -5,18 +5,18 @@ import './Image.scss';
 
 class Image extends React.Component {
   static propTypes = {
-    dto: PropTypes.object,
     galleryWidth: PropTypes.number
   };
 
   constructor(props) {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
+    this.handleRotate = this.handleRotate.bind(this);
     this.state = {
       size: 200,
-      rotation: 0
+      rotation: 0,
+      url: this.props.url
     };
-    this.handleRotate = this.handleRotate.bind(this);
   }
 
   calcImageSize() {
@@ -33,10 +33,6 @@ class Image extends React.Component {
     this.calcImageSize();
   }
 
-  urlFromDto(dto) {
-    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
-  }
-
   handleRotate = () => {
     let newRotation = (this.state.rotation === 360) ? 0 : this.state.rotation;
     newRotation += 90;
@@ -51,7 +47,7 @@ class Image extends React.Component {
       <div className="image-root">
         <img
           style={{transform: `rotate(${this.state.rotation}deg)`}}
-          src={this.urlFromDto(this.props.dto)}
+          src={this.state.url}
           width={this.state.size + 'px'}
           height={this.state.size + 'px'}
           >
@@ -59,7 +55,7 @@ class Image extends React.Component {
         <div>
             <FontAwesome onClick={this.handleRotate} className="image-icon" name="sync-alt" title="rotate"/>
             <FontAwesome onClick={this.props.onDelete} className="image-icon" name="trash-alt" title="delete"/>
-            <FontAwesome className="image-icon" name="expand" title="expand"/>
+            <FontAwesome onClick={this.props.onExpand} className="image-icon" name="expand" title="expand"/>
         </div>
       </div>
     );
