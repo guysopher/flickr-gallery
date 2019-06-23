@@ -34,12 +34,9 @@ class Image extends React.Component {
   }
 
   handleRotate = () => {
-    let newRotation = (this.state.rotation === 360) ? 0 : this.state.rotation;
-    newRotation += 90;
-
-    this.setState({
-      rotation: newRotation
-    })
+    this.setState((prevState)=>({
+      rotation: (prevState.rotation + 90) % 360
+    }))
   }
 
   render() {

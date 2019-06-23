@@ -16,7 +16,10 @@ class Gallery extends React.Component {
       images: [],
       galleryWidth: this.getGalleryWidth(),
       isLightBoxOpen: false,
-      imageIndex: 0
+      imageIndex: 0,
+      page: 1,
+      isLoading: false,
+      tag: this.props.tag
     };
   }
 
@@ -29,7 +32,13 @@ class Gallery extends React.Component {
   }
 
   getImages(tag) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
+    if(this.state.tag != tag){
+      this.setState({
+        page: 0
+      });
+    }
+
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.page}}&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({
       url: getImagesUrl,
@@ -44,7 +53,21 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({images: res.photos.photo});
+          if(this.state.tag != tag){
+            this.setState({
+              images: res.photos.photo,
+              tag: tag
+            });
+          } else {
+              this.setState((prevState)=>({
+                images: [
+                ...this.state.images,
+                ...res.photos.photo
+              ],
+              tag: prevState.tag,
+              isLoading: false
+            }));
+          }
         }
       });
   }
@@ -54,6 +77,11 @@ class Gallery extends React.Component {
     this.setState({
       galleryWidth: document.body.clientWidth
     });
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   componentWillReceiveProps(props) {
@@ -75,6 +103,26 @@ class Gallery extends React.Component {
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
+  }
+
+  handleScroll() {
+    if(this.state.isLoading){
+      return;
+    }
+
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const windowBottom = windowHeight + window.pageYOffset;
+
+    if (windowBottom >= (docHeight * 0.9)) {
+        this.setState((prevState)=>({
+          isLoading: true,
+          page: prevState.page + 1
+        }));
+        this.getImages(this.props.tag);
+    }
   }
 
   render() {
@@ -102,7 +150,7 @@ class Gallery extends React.Component {
           }
           enableZoom={false}
         />)}
-
+        
         <div className="gallery-root">
           {this.state.images.map((dto, index) => {
             return (<Image
