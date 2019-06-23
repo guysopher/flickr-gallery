@@ -29,6 +29,7 @@ class Gallery extends React.Component {
       return 1000;
     }
   }
+
   getImages(tag) {
     const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
@@ -50,100 +51,114 @@ class Gallery extends React.Component {
       });
   }
 
+  // ============ resize handling ===============
+  updateDimensions () {
+    this.setState({galleryWidth: document.body.clientWidth})
+  }
   componentDidMount() {
     this.getImages(this.props.tag);
-    this.setState({
-      galleryWidth: document.body.clientWidth
-    });
+    window.addEventListener('resize', this.updateDimensions.bind(this));
   }
-
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this));
+  }
+  
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
   }
 
-  handleDelete(dto){
+  //========buttons handlers==============
+  //delete button
+  handleDelete(dto) {
+    var arr = this.state.images.slice();
+    var index = arr.indexOf(dto);
+    arr.splice(index, 1);
+    
+    
     var messages = ['This image?... interesting...', 'And now this...?', 'Didn\'t see that coming...']
-    var num_of_messages = messages.length;
+    var indexMessage = this.state.messagesIndex + 1;
+    
+    if (indexMessage == messages.length) {
+      indexMessage = 0;
+    }
+    
+    this.setState({images: arr, messagesIndex:indexMessage})
     alert(messages[this.state.messagesIndex]);
-     var arr = this.state.images.slice();
-     var index = arr.indexOf(dto);
-     arr.splice(index, 1);
-     this.setState({images: arr,
-                    messagesIndex: (Math.floor(Math.random() * (num_of_messages)))})
-   }
+  }
   
-   handleRotate(dto){
+  //rotate button
+  handleRotate(dto){
     var temp = dto;
     if (temp.rotateAngle) {
       temp.rotateAngle = ((temp.rotateAngle + 90) % 360);
-      } else {
-        temp.rotateAngle = 90;
-      }
+    } else {
+      temp.rotateAngle = 90;
+    }
     var arr = this.state.images;
     var index = arr.indexOf(dto);
     arr[index] = temp;
     this.setState({images: arr})
-   }
-
-  updateIndex(index) {
+  }
+  
+  //enlarge button
+  showLargeImage(dto){
+    this.updateLargeImageIndex(this.state.images.indexOf(dto));
+    this.setState({isShowLargeImage: true});
+  }
+  
+  updateLargeImageIndex(index) {
     this.setState({largeIndex: index})
     this.setState({largeImage: this.state.images[index]});
-}
-   showLargeImage(dto){
-    this.updateIndex(this.state.images.indexOf(dto));
-    this.setState({isShowLargeImage: true});
-   }
+  }
 
-   closeLarge () {
+  // buttons on large image handlers
+   handleCloseLarge () {
     this.setState({isShowLargeImage: false})
    }
 
-   leftLarge(){
+   handleLeftClick(){
      var tableLen = this.state.images.length;
      var index = this.state.largeIndex - 1
      if (index < 0) {
        index = tableLen - 1;
       }
-     this.updateIndex(index);
+     this.updateLargeImageIndex(index);
 }
-   rightLarge(){
+   hangleRightClick(){
      var tableLen = this.state.images.length;
      var index = this.state.largeIndex + 1
      if (index === tableLen) {
        index = 0;
     }
-     this.updateIndex(index);
+     this.updateLargeImageIndex(index);
 
    }
   render() {
-    let display;
-    if (this.state.isShowLargeImage){
-    // if (this.state.showlarge) {
-      display =
-      <div>
-        <LargeImage dto={this.state.largeImage}
-        closeLarge={() => this.closeLarge()}
-        leftLarge={() => this.leftLarge()}
-        rightLarge={() => this.rightLarge()}/>
-        
-        <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
-            deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}
-            showLarge={() => this.showLargeImage(dto)}
-             />;
-        })}
-      </div>
-      </div>
-    } else {
-    display =
+    let showLarge =
+    <div>
+    <LargeImage dto={this.state.largeImage}
+    handleCloseLarge={() => this.handleCloseLarge()}
+    handleLeftClick={() => this.handleLeftClick()}
+    hangleRightClick={() => this.hangleRightClick()}/>
+    </div>
+    
+    let showGallery =
     <div className="gallery-root">
     {this.state.images.map(dto => {
       return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
         deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}
-        showLarge={() => this.showLargeImage(dto)} />;
-    })}
-  </div>
+        showLarge={() => this.showLargeImage(dto)}
+      />;
+      })}
+    </div>
+
+    let display;
+
+    if (this.state.isShowLargeImage){
+      display = <div>{showLarge} {showGallery}</div>
+    } else {
+      display = <div> {showGallery} </div>
     }
 
     return (

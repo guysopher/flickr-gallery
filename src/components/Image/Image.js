@@ -27,9 +27,19 @@ class Image extends React.Component {
     });
   }
 
-  componentDidMount() {
+  updateDimensions(){
     this.calcImageSize();
   }
+
+  componentDidMount() {
+    this.calcImageSize();
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+  }
+
+
+componentWillUnmount() {
+  window.removeEventListener('resize', this.updateDimensions.bind(this));
+}
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;

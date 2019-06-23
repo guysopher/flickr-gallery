@@ -1,5 +1,9 @@
 .gallery-root {
   text-align: center;
+  background-color: #222;
+  // padding: 10px;
+  // color: white;
+  // font-size: 20pt;
 }
 
 .gallery-header {
@@ -11,11 +15,4 @@
 
 .gallery-intro {
   font-size: 15pt;
-}
-
-.ImageLarge {
-  background-color: white;
-  width: 1000 px;
-  position: absolute;
-  z-index: 100;
 }
