@@ -121,7 +121,7 @@ class Gallery extends React.Component {
     // if (this.state.showlarge) {
       display =
       <div>
-        <LargeImage dto={this.state.largeImage} 
+        <LargeImage dto={this.state.largeImage}
         closeLarge={() => this.closeLarge()}
         leftLarge={() => this.leftLarge()}
         rightLarge={() => this.rightLarge()}/>

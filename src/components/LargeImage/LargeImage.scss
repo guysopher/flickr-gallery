@@ -1,33 +1,80 @@
 .ImageLarge {
-  // background-color: red;
-    // float: top;
-    position: fixed;
-     top: 20px;
-     height: 50%;
-     left: 2%;
-     width: 96%;
+  // float: top;
+  // position: fixed;
+  // position: fixed;
+  // height: 50%;
+  // left: 2%;
+  // background-color: black;
+}
 
-  }
-
-  .closebtn{
-    float: right;
-  }
-
-  .clearfix {
-    clear: both;
-  }
-  .button {
-    position: relative;
-    top: 40%;
-    background-color: Transparent;
-    color: hsl(0, 0%, 95%);
-    font-weight: yes;
-    font-size: 200%;
-    cursor: pointer;
-    outline:none;
-  }
-    
-    .closebtn, .button {
-      border: none;
-   }
+#backgroundLarge {
+  position: fixed;
+  background: black;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
   
+  // text-align: center;
+  
+}
+#img {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+// .button {
+  //   position: fixed;
+  //   top: 40%;
+//   // background-color: grey;
+//   color: hsl(0, 3%, 72%);
+//   font-weight: yes;
+//   font-size: 200%;
+//   cursor: pointer;
+//   outline:none;
+// }
+
+// font-size: 20px;
+// vertical-align: middle;
+// border: 1px solid #ccc;
+// color: #ccc;
+// border-radius: 5px;
+// margin: 3px;
+.button {
+  color: #ccc;
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  position: fixed;
+  background-color: transparent;
+}
+
+.button:hover {
+    color: white;
+    border-color: white;
+}
+.button:focus {
+  outline: 0px;
+}
+#closebtn {
+  right: 10px;
+  top: 10px;
+  border: transparent;
+}
+
+#button-left {
+  font-size: 130%;
+  top: 50%;
+  left: 10px;
+}
+#button-right {
+  font-size: 130%;
+    top: 50%;
+    right: 10px;
+  }
