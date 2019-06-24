@@ -11,10 +11,9 @@ class Image extends React.Component {
   constructor(props) {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
-    this.handleRotate = this.handleRotate.bind(this);
     this.state = {
       size: 200,
-      rotation: 0,
+      isInitialized: true,
       url: this.props.url
     };
   }
@@ -30,27 +29,28 @@ class Image extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({isInitialized: false})
     this.calcImageSize();
   }
 
-  handleRotate = () => {
-    this.setState((prevState)=>({
-      rotation: (prevState.rotation + 90) % 360
-    }))
-  }
-
   render() {
+    const rotationAttribute = {'rotate': 0};
+
+    if(this.state.isInitialized){
+      rotationAttribute.disabled = true;
+    }
+
     return (
       <div className="image-root">
         <img
-          style={{transform: `rotate(${this.state.rotation}deg)`}}
-          src={this.state.url}
-          width={this.state.size + 'px'}
-          height={this.state.size + 'px'}
-          >
+        {...rotationAttribute}
+        src={this.state.url}
+        width={this.state.size + 'px'}
+        height={this.state.size + 'px'}
+        >
         </img>
         <div>
-            <FontAwesome onClick={this.handleRotate} className="image-icon" name="sync-alt" title="rotate"/>
+            <FontAwesome onClick={this.props.onRotate} className="image-icon" name="sync-alt" title="rotate"/>
             <FontAwesome onClick={this.props.onDelete} className="image-icon" name="trash-alt" title="delete"/>
             <FontAwesome onClick={this.props.onExpand} className="image-icon" name="expand" title="expand"/>
         </div>

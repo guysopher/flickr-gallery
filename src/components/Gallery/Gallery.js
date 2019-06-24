@@ -70,7 +70,7 @@ class Gallery extends React.Component {
     this.setState({
       galleryWidth: document.body.clientWidth
     });
-    window.addEventListener('scroll', this.handleScroll.bind(this));
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
@@ -81,20 +81,29 @@ class Gallery extends React.Component {
     this.getNewTagImages(props.tag);
   }
 
-  handleDelete = (index) => {
+  handleRotate = (index, e) => {
+    // const rotatedImage = Object.assign({}, this.state.images[index]);
+    const imgElement = e.target.parentElement.parentElement.firstChild;
+    let rotationAngle = (parseInt(imgElement.attributes.getNamedItem('rotate').value) + 90) % 360;
+
+    imgElement.setAttribute('rotate', rotationAngle);
+    imgElement.style.transform = `rotate(${rotationAngle}deg)`
+  }
+
+  handleDelete = index => {
     const images = Object.assign([], this.state.images);
     images.splice(index, 1);
     this.setState({images: images})
   }
   
-  handleExpand = (index) => {
+  handleExpand = index => {
     this.setState({
       imageIndex: index,
       isLightBoxOpen: true
     });
   }
 
-  handleScroll() {
+  handleScroll = () => {
     if(this.state.isLoading){
       return;
     }
@@ -150,6 +159,7 @@ class Gallery extends React.Component {
               galleryWidth={this.state.galleryWidth}
               onDelete={this.handleDelete.bind(this, index)}
               onExpand={this.handleExpand.bind(this, index)}
+              onRotate={this.handleRotate.bind(this, index)}
             />);
           })}
         </div>
