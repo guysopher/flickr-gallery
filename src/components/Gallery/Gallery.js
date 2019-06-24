@@ -31,16 +31,25 @@ class Gallery extends React.Component {
     }
   }
 
-  getImages(tag) {
-    if(this.state.tag != tag){
-      this.setState({
-        page: 0
-      });
-    }
+  getNewTagImages(tag) {
+    this.getImages(tag).then(images => this.setState({
+      images: images,
+      page: 0,
+      tag: tag
+    }));
+  }
 
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.page}}&format=json&nojsoncallback=1`;
+  loadMoreImages() {
+    this.getImages(this.state.tag).then(images => this.setState(prevState => ({
+      images: [...prevState.images, ...images],
+      isLoading: false
+    })));
+  }
+
+  getImages(tag) {
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&page=${this.state.page}&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
-    axios({
+    return axios({
       url: getImagesUrl,
       baseURL: baseUrl,
       method: 'GET'
@@ -52,28 +61,12 @@ class Gallery extends React.Component {
           res.photos &&
           res.photos.photo &&
           res.photos.photo.length > 0
-        ) {
-          if(this.state.tag != tag){
-            this.setState({
-              images: res.photos.photo,
-              tag: tag
-            });
-          } else {
-              this.setState((prevState)=>({
-                images: [
-                ...this.state.images,
-                ...res.photos.photo
-              ],
-              tag: prevState.tag,
-              isLoading: false
-            }));
-          }
-        }
+        ) { return res.photos.photo; }
       });
   }
 
   componentDidMount() {
-    this.getImages(this.props.tag);
+    this.getNewTagImages(this.props.tag);
     this.setState({
       galleryWidth: document.body.clientWidth
     });
@@ -85,7 +78,7 @@ class Gallery extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.getImages(props.tag);
+    this.getNewTagImages(props.tag);
   }
 
   handleDelete = (index) => {
@@ -101,28 +94,26 @@ class Gallery extends React.Component {
     });
   }
 
-  urlFromDto(dto) {
-    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
-  }
-
   handleScroll() {
     if(this.state.isLoading){
       return;
     }
 
-    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-    const body = document.body;
     const html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-    const windowBottom = windowHeight + window.pageYOffset;
+    const shouldLoadMoreImages = html.scrollHeight - html.scrollTop <= html.clientHeight * 2;
 
-    if (windowBottom >= (docHeight * 0.9)) {
-        this.setState((prevState)=>({
-          isLoading: true,
-          page: prevState.page + 1
-        }));
-        this.getImages(this.props.tag);
+    if (shouldLoadMoreImages) {
+      this.setState((prevState) => ({
+        isLoading: true,
+        page: prevState.page + 1
+      }));
+
+      this.loadMoreImages();
     }
+  }
+
+  urlFromDto(dto) {
+    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
   render() {
