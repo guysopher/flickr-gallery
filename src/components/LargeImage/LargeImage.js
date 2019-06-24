@@ -23,7 +23,7 @@ class LargeImage extends React.Component {
      
               <button id="closebtn" className="button" onClick={this.props.handleCloseLarge}>X</button>
               <button id="button-left" className="button" onClick={this.props.handleLeftClick}>    &lt; </button>
-              <button id="button-right" className="button" onClick={this.props.hangleRightClick}>    &gt; </button>
+              <button id="button-right" className="button" onClick={this.props.handleRightClick}>    &gt; </button>
           </div>
         );
         

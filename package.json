@@ -42,7 +42,7 @@
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^6.0.0",
     "file-loader": "^0.9.0",
-    "gh-pages-deploy": "^0.4.2",
+    "gh-pages-deploy": "^0.5.1",
     "glob": "^7.0.0",
     "isparta-instrumenter-loader": "^1.0.0",
     "jsdom": "^11.6.2",
@@ -74,13 +74,14 @@
     "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.19.0",
     "core-js": "^2.0.0",
     "node-sass": "^4.7.2",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "react-fontawesome": "^1.6.1"
+    "react-fontawesome": "^1.6.1",
+    "react-infinite-scroll-component": "^4.5.2"
   },
   "gh-pages-deploy": {
     "staticpath": "dist",

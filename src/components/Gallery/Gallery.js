@@ -12,14 +12,17 @@ class Gallery extends React.Component {
 
   constructor(props) {
     super(props);
+    
     this.state = {
       images: [],
       galleryWidth: this.getGalleryWidth(),
       messagesIndex: 0,
       isShowLargeImage: false,
       largeImage: '',
-      largeIndex: 0
+      largeIndex: 0,
+      page: 0
     };
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   getGalleryWidth(){
@@ -31,7 +34,9 @@ class Gallery extends React.Component {
   }
 
   getImages(tag) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
+    let page = this.state.page + 1;
+        
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&tag_mode=any&page=${page}&per_page=100&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({
       url: getImagesUrl,
@@ -46,11 +51,13 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
-          this.setState({images: res.photos.photo});
+          let gallery = this.state.images;
+          gallery = [...gallery, ...res.photos.photo]
+          this.setState({images: gallery, page: page});
         }
       });
-  }
-
+    }
+  
   // ============ resize handling ===============
   updateDimensions () {
     this.setState({galleryWidth: document.body.clientWidth})
@@ -58,6 +65,8 @@ class Gallery extends React.Component {
   componentDidMount() {
     this.getImages(this.props.tag);
     window.addEventListener('resize', this.updateDimensions.bind(this));
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+
   }
   
   componentWillUnmount() {
@@ -125,7 +134,7 @@ class Gallery extends React.Component {
       }
      this.updateLargeImageIndex(index);
 }
-   hangleRightClick(){
+   handleRightClick(){
      var tableLen = this.state.images.length;
      var index = this.state.largeIndex + 1
      if (index === tableLen) {
@@ -134,16 +143,25 @@ class Gallery extends React.Component {
      this.updateLargeImageIndex(index);
 
    }
+
+   handleScroll() {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
+       this.getImages(this.props.tag);
+        document.removeEventListener('scroll', this.trackScrolling);
+   }
+  }
   render() {
     let showLarge =
     <div>
     <LargeImage dto={this.state.largeImage}
     handleCloseLarge={() => this.handleCloseLarge()}
     handleLeftClick={() => this.handleLeftClick()}
-    hangleRightClick={() => this.hangleRightClick()}/>
+    handleRightClick={() => this.handleRightClick()}/>
     </div>
     
     let showGallery =
+    <div> {this.state.numberOfImages}
+
     <div className="gallery-root">
     {this.state.images.map(dto => {
       return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
@@ -151,6 +169,7 @@ class Gallery extends React.Component {
         showLarge={() => this.showLargeImage(dto)}
       />;
       })}
+    </div>
     </div>
 
     let display;
@@ -162,7 +181,7 @@ class Gallery extends React.Component {
     }
 
     return (
-      <div>
+      <div id="app-root-scroll">
     {display}
     </div>
     );

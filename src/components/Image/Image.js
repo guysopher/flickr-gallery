@@ -13,7 +13,7 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: this.calcImageSize
     };
   }
 
