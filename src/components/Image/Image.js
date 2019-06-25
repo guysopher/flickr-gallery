@@ -13,7 +13,7 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: this.calcImageSize
+      size: this.calcImageSize()
     };
   }
 
@@ -44,28 +44,40 @@ componentWillUnmount() {
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
-  
+  handleDrag(e) {
+    e.dataTransfer.setData('text', this.props.dto.id);
+   }
+ 
+   handleDrop(e) {
+    var draggedId = e.dataTransfer.getData('text');
+    this.props.moveImage(draggedId, this.props.dto.id);
+   }
+
   render() {
    const rotateAngle = this.props.dto.rotateAngle;
     return (
-      <div
-        className="image-root"
-        style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.size + 'px',
-          height: this.state.size + 'px',
-          transform: `rotate(${rotateAngle}deg)`
-        }}
-        >
+      
         <div
-         style={{
-         transform: `rotate(-${rotateAngle}deg)`
-        }}>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.rotateClick}/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.deleteClick}/>
-          <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.props.showLarge}/>
+          className="image-root" title="you can drag me"
+          draggable
+          onDragStart={(e) => this.handleDrag(e)}
+          onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.handleDrop(e)}
+          style={{
+            backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+            width: this.state.size + 'px',
+            height: this.state.size + 'px',
+            transform: `rotate(${rotateAngle}deg)`
+          }}
+          >
+          <div
+          style={{
+          transform: `rotate(-${rotateAngle}deg)`
+          }}>
+            <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.rotateClick}/>
+            <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.deleteClick}/>
+            <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.props.showLarge}/>
+          </div>
         </div>
-      </div>
     );
   // }
   // return;

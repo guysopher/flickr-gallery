@@ -17,12 +17,16 @@ class Gallery extends React.Component {
       images: [],
       galleryWidth: this.getGalleryWidth(),
       messagesIndex: 0,
-      isShowLargeImage: false,
+      isShowLargeImage: 'none',
       largeImage: '',
       largeIndex: 0,
-      page: 0
+      page: 0,
+      draggedIndex: 0
     };
     this.handleScroll = this.handleScroll.bind(this);
+    this.myfunction = this.myfunction.bind(this);
+    this.moveImage = this.moveImage.bind(this);
+    
   }
 
   getGalleryWidth(){
@@ -58,42 +62,42 @@ class Gallery extends React.Component {
       });
     }
   
-  // ============ resize handling ===============
+    componentDidMount() {
+      this.getImages(this.props.tag);
+      this.setState({gallerWidth: document.body.clientWidth});
+      window.addEventListener('resize', this.updateDimensions.bind(this));
+      window.addEventListener('scroll', this.handleScroll.bind(this));
+    }
+    
+    componentWillReceiveProps(props) {
+      this.getImages(props.tag);
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.updateDimensions.bind(this));
+    }
+
+    // ============ resize handling ===============
   updateDimensions () {
     this.setState({galleryWidth: document.body.clientWidth})
   }
-  componentDidMount() {
-    this.getImages(this.props.tag);
-    window.addEventListener('resize', this.updateDimensions.bind(this));
-    window.addEventListener('scroll', this.handleScroll.bind(this));
-
-  }
   
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions.bind(this));
-  }
-  
-  componentWillReceiveProps(props) {
-    this.getImages(props.tag);
-  }
-
-  //========buttons handlers==============
+  //========buttons on normal picture handlers==============
   //delete button
   handleDelete(dto) {
-    var arr = this.state.images.slice();
-    var index = arr.indexOf(dto);
+    let arr = this.state.images.slice();
+    let index = arr.indexOf(dto);
     arr.splice(index, 1);
     
     
-    var messages = ['This image?... interesting...', 'And now this...?', 'Didn\'t see that coming...']
-    var indexMessage = this.state.messagesIndex + 1;
-    
-    if (indexMessage == messages.length) {
-      indexMessage = 0;
+    let messages = ['This image?... interesting...', 'And now this...?', 'Ok... That\'s enough...']
+    if (this.state.messagesIndex < messages.length) {
+      alert(messages[this.state.messagesIndex]);
+      let messagesIndex = this.state.messagesIndex + 1;
+      this.setState({messagesIndex: messagesIndex});
     }
     
-    this.setState({images: arr, messagesIndex:indexMessage})
-    alert(messages[this.state.messagesIndex]);
+    this.setState({images: arr});
   }
   
   //rotate button
@@ -112,78 +116,99 @@ class Gallery extends React.Component {
   
   //enlarge button
   showLargeImage(dto){
-    this.updateLargeImageIndex(this.state.images.indexOf(dto));
-    this.setState({isShowLargeImage: true});
+    this.updateLargeImage(this.state.images.indexOf(dto));
+    this.setState({isShowLargeImage: 'block'});
   }
   
-  updateLargeImageIndex(index) {
+  updateLargeImage(index) {
     this.setState({largeIndex: index})
     this.setState({largeImage: this.state.images[index]});
   }
 
-  // buttons on large image handlers
-   handleCloseLarge () {
-    this.setState({isShowLargeImage: false})
+  // ============buttons on large image handlers============
+  // close button (X)
+  handleCloseLarge () {
+    this.setState({isShowLargeImage: 'none'})
    }
-
+   // left button (<)
    handleLeftClick(){
-     var tableLen = this.state.images.length;
      var index = this.state.largeIndex - 1
-     if (index < 0) {
-       index = tableLen - 1;
+    
+     //  go to end if reached beginning
+    if (index < 0) {
+       index = this.state.images.length - 1;
       }
-     this.updateLargeImageIndex(index);
+     this.updateLargeImage(index);
 }
+  // right button (>)
    handleRightClick(){
-     var tableLen = this.state.images.length;
      var index = this.state.largeIndex + 1
-     if (index === tableLen) {
+     
+     // go to beginning if reached the end
+     if (index === this.state.images.length) {
        index = 0;
     }
-     this.updateLargeImageIndex(index);
-
+     this.updateLargeImage(index);
    }
-
+// ========== handle scroll =========
    handleScroll() {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
-       this.getImages(this.props.tag);
+     // check it reached (almost) end of screen - and if so - get more images
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200){
+        this.getImages(this.props.tag);
+        
+        // remove the event listener
         document.removeEventListener('scroll', this.trackScrolling);
    }
   }
+
+
+
+  moveImage(draggedId, droppedId) {
+    // get the dragged image and it's index
+    let draggedImage = this.state.images.find(dto => dto.id === draggedId);
+    let draggedIndex = this.state.images.indexOf(draggedImage);
+    
+    // get the dropped image's index
+    let droppedIndex = this.state.images.findIndex(dto => dto.id === droppedId);
+    
+    // copy the original
+    let arr = this.state.images.slice();
+
+    // remove the dragged and insert it again in the dropped index
+    arr.splice(draggedIndex, 1);
+    arr.splice(droppedIndex, 0, draggedImage);
+    
+    this.setState({images: arr})
+   }
+    myfunction (num1){
+     alert(num1);
+   }
+
   render() {
-    let showLarge =
-    <div>
+
+    return (
+      <div>
     <LargeImage dto={this.state.largeImage}
     handleCloseLarge={() => this.handleCloseLarge()}
     handleLeftClick={() => this.handleLeftClick()}
-    handleRightClick={() => this.handleRightClick()}/>
-    </div>
-    
-    let showGallery =
-    <div> {this.state.numberOfImages}
+    handleRightClick={() => this.handleRightClick()}
+    isShowLargeImage={this.state.isShowLargeImage}
+    />
 
     <div className="gallery-root">
     {this.state.images.map(dto => {
       return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}
         deleteClick={() => this.handleDelete(dto)} rotateClick={() => this.handleRotate(dto)}
         showLarge={() => this.showLargeImage(dto)}
+        setDraggedIndex={() => this.setDraggedIndex(dto)}
+        handleDrop={() => this.handleDrop(dto)}
+        myfunction={this.myfunction}
+        moveImage={this.moveImage}
       />;
       })}
     </div>
     </div>
 
-    let display;
-
-    if (this.state.isShowLargeImage){
-      display = <div>{showLarge} {showGallery}</div>
-    } else {
-      display = <div> {showGallery} </div>
-    }
-
-    return (
-      <div id="app-root-scroll">
-    {display}
-    </div>
     );
   }
 }

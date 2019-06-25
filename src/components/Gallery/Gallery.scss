@@ -1,11 +1,10 @@
 .gallery-root {
-  text-align: center;
   background-color: #222;
-  // padding: 10px;
-  // color: white;
-  // font-size: 20pt;
-}
 
+}
+* {
+  box-sizing: inherit;
+}
 .gallery-header {
   background-color: #222;
   padding: 10px;
