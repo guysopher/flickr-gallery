@@ -13,7 +13,7 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: this.calcImageSize()
+      size: 200
     };
   }
 
@@ -27,40 +27,42 @@ class Image extends React.Component {
     });
   }
 
-  updateDimensions(){
-    this.calcImageSize();
-  }
-
   componentDidMount() {
     this.calcImageSize();
-    window.addEventListener('resize', this.updateDimensions.bind(this));
+    // set event handler for resize
+    window.addEventListener('resize', this.calcImageSize.bind(this));
   }
 
 
-componentWillUnmount() {
-  window.removeEventListener('resize', this.updateDimensions.bind(this));
-}
+  componentWillUnmount() {
+    // remove event handler for resize
+    window.removeEventListener('resize', this.calcImageSize.bind(this));
+  }
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
-  handleDrag(e) {
+  // handle of Image - pass the id of the image to the dropped
+  handleDragImage(e) {
     e.dataTransfer.setData('text', this.props.dto.id);
    }
- 
+   
    handleDrop(e) {
     var draggedId = e.dataTransfer.getData('text');
-    this.props.moveImage(draggedId, this.props.dto.id);
+
+    // pass the id's to the parent (Gallery) in order to update the array
+    this.props.handleDrag(draggedId, this.props.dto.id);
    }
 
   render() {
-   const rotateAngle = this.props.dto.rotateAngle;
+  // getting rotataAngle if it is defined, otherwise = 0
+  const rotateAngle = this.props.dto.rotateAngle? this.props.dto.rotateAngle : 0;
     return (
       
         <div
           className="image-root" title="you can drag me"
           draggable
-          onDragStart={(e) => this.handleDrag(e)}
+          onDragStart={(e) => this.handleDragImage(e)}
           onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.handleDrop(e)}
           style={{
             backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
@@ -73,9 +75,9 @@ componentWillUnmount() {
           style={{
           transform: `rotate(-${rotateAngle}deg)`
           }}>
-            <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.rotateClick}/>
-            <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.deleteClick}/>
-            <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.props.showLarge}/>
+            <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.props.handleRotate}/>
+            <FontAwesome className="image-icon" name="trash-alt" title="delete me" onClick={this.props.handleDelete}/>
+            <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.props.handleEnlarge}/>
           </div>
         </div>
     );
