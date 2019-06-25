@@ -165,7 +165,7 @@ class Gallery extends React.Component {
   // =============== handle scroll ==============
    handleScroll() {
      // check it reached (almost) end of screen - and if so - get more images
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200){
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500){
         this.getImages(this.props.tag);
         
         // remove the event listener
