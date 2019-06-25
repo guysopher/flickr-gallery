@@ -18,7 +18,7 @@ class Image extends React.Component {
   }
 
   calcImageSize() {
-    const {galleryWidth} = this.props;
+    const galleryWidth = document.body.offsetWidth;
     const targetSize = 200;
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = (galleryWidth / imagesPerRow);
@@ -29,6 +29,8 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+    // this.forceUpdate();
+
     // set event handler for resize
     window.addEventListener('resize', this.calcImageSize.bind(this));
   }
@@ -58,7 +60,6 @@ class Image extends React.Component {
   // getting rotataAngle if it is defined, otherwise = 0
   const rotateAngle = this.props.dto.rotateAngle? this.props.dto.rotateAngle : 0;
     return (
-      
         <div
           className="image-root" title="you can drag me"
           draggable
