@@ -32,18 +32,23 @@ class Gallery extends React.Component {
   }
 
   getNewTagImages(tag) {
-    this.getImages(tag).then(images => this.setState({
-      images: images,
-      page: 0,
+    this.getImages(tag).then(newImages => this.setState({
+      images: newImages,
+      page: 1,
       tag: tag
     }));
   }
 
-  loadMoreImages() {
-    this.getImages(this.state.tag).then(images => this.setState(prevState => ({
-      images: [...prevState.images, ...images],
-      isLoading: false
-    })));
+  loadMoreImages = () => {
+    this.setState(prevState => ({
+      isLoading: true,
+      page: prevState.page + 1
+    }), () => {
+        this.getImages(this.state.tag).then(newImages => this.setState(prevState => ({
+          images: [...prevState.images, ...newImages],
+          isLoading: false
+      })));
+    });
   }
 
   getImages(tag) {
@@ -81,13 +86,12 @@ class Gallery extends React.Component {
     this.getNewTagImages(props.tag);
   }
 
-  handleRotate = (index, e) => {
-    // const rotatedImage = Object.assign({}, this.state.images[index]);
+  handleRotate = (e) => {
     const imgElement = e.target.parentElement.parentElement.firstChild;
-    let rotationAngle = (parseInt(imgElement.attributes.getNamedItem('rotate').value) + 90) % 360;
+    let rotationAngle = (parseInt(imgElement.getAttribute('rotate')) + 90) % 360;
 
     imgElement.setAttribute('rotate', rotationAngle);
-    imgElement.style.transform = `rotate(${rotationAngle}deg)`
+    imgElement.style.transform = `rotate(${rotationAngle}deg)`;
   }
 
   handleDelete = index => {
@@ -112,12 +116,7 @@ class Gallery extends React.Component {
     const shouldLoadMoreImages = html.scrollHeight - html.scrollTop <= html.clientHeight * 2;
 
     if (shouldLoadMoreImages) {
-      this.setState((prevState) => ({
-        isLoading: true,
-        page: prevState.page + 1
-      }));
-
-      this.loadMoreImages();
+        this.loadMoreImages()
     }
   }
 
@@ -159,7 +158,7 @@ class Gallery extends React.Component {
               galleryWidth={this.state.galleryWidth}
               onDelete={this.handleDelete.bind(this, index)}
               onExpand={this.handleExpand.bind(this, index)}
-              onRotate={this.handleRotate.bind(this, index)}
+              onRotate={this.handleRotate.bind(this)}
             />);
           })}
         </div>
