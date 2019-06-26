@@ -20,8 +20,8 @@ class Gallery extends React.Component {
       isShowLargeImage: 'none',
       largeImage: '',
       largeIndex: 0,
-      page: 0,
-      draggedIndex: 0
+      page: 0
+
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
@@ -68,7 +68,6 @@ class Gallery extends React.Component {
   
     componentDidMount() {
       this.getImages(this.props.tag);
-      
       // set event listers for resize and scroll
       window.addEventListener('resize', this.handleResize.bind(this));
       window.addEventListener('scroll', this.handleScroll.bind(this));
@@ -175,8 +174,7 @@ class Gallery extends React.Component {
   // ========= handle drag image ==============
   handleDrag(draggedId, droppedId) {
     // get the dragged image and it's index from child component
-    let draggedImage = this.state.images.find(dto => dto.id === draggedId);
-    let draggedIndex = this.state.images.indexOf(draggedImage);
+    let draggedImage = this.state.images.find(dto => dto.id === draggedId)
     
     // get the dropped image's index
     let droppedIndex = this.state.images.findIndex(dto => dto.id === droppedId);
@@ -184,14 +182,13 @@ class Gallery extends React.Component {
     // copy the original gallery
     let gallery = this.state.images.slice();
 
-    // remove the dragged and insert it again in the dropped index
-    gallery.splice(draggedIndex, 1);
+    // remove the dragged and insert it again in the dropped inde
     gallery.splice(droppedIndex, 0, draggedImage);
     
     // update the new gallery
     this.setState({images: gallery})
    }
-
+  
   render() {
     return (
       <div>
@@ -202,7 +199,7 @@ class Gallery extends React.Component {
                     isShowLargeImage={this.state.isShowLargeImage}
                     />
 
-      <div className="gallery-root">
+      <div className="gallery-root" name="gallery">
         {this.state.images.map(dto => {
           return <Image key={'image-' + dto.id} dto={dto}
                         galleryWidth={this.state.galleryWidth}

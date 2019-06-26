@@ -14,7 +14,7 @@ class Image extends React.Component {
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200
-    };
+        };
   }
 
   calcImageSize() {
@@ -29,7 +29,6 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
-    // this.forceUpdate();
 
     // set event handler for resize
     window.addEventListener('resize', this.calcImageSize.bind(this));
@@ -47,13 +46,15 @@ class Image extends React.Component {
   // handle of Image - pass the id of the image to the dropped
   handleDragImage(e) {
     e.dataTransfer.setData('text', this.props.dto.id);
-   }
-   
-   handleDrop(e) {
+  }
+  
+  handleDrop(e) {
     var draggedId = e.dataTransfer.getData('text');
-
+    
     // pass the id's to the parent (Gallery) in order to update the array
     this.props.handleDrag(draggedId, this.props.dto.id);
+    
+    this.props.handleDragMessage();
    }
 
   render() {
