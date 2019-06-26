@@ -10,27 +10,14 @@ class Image extends React.Component {
 
   constructor(props) {
     super(props);
-    this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200,
       isInitialized: true,
       url: this.props.url
     };
   }
 
-  calcImageSize() {
-    const {galleryWidth} = this.props;
-    const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth / imagesPerRow);
-    this.setState({
-      size
-    });
-  }
-
   componentDidMount() {
     this.setState({isInitialized: false})
-    this.calcImageSize();
   }
 
   render() {
@@ -41,22 +28,15 @@ class Image extends React.Component {
     }
 
     return (
-      <div className="image-root"
-            // width={this.state.size + 'px'}
-            // height={this.state.size + 'px'}
-      >
+      <div className="image-root">
         <img
           {...rotationAttribute}
           style={{
-            // width: '100%',
-            // height: '100%',
             backgroundImage: `url(${this.state.url})`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
           }}
-          // width={this.state.size + 'px'}
-          // height={this.state.size + 'px'}
         />
         <div>
             <FontAwesome onClick={this.props.onRotate} className="image-icon" name="sync-alt" title="rotate"/>

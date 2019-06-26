@@ -14,7 +14,6 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth(),
       isLightBoxOpen: false,
       imageIndex: 0,
       page: 1,
@@ -22,15 +21,7 @@ class Gallery extends React.Component {
       tag: this.props.tag
     };
   }
-
-  getGalleryWidth(){
-    try {
-      return document.body.clientWidth;
-    } catch (e) {
-      return 1000;
-    }
-  }
-
+  
   getNewTagImages(tag) {
     this.getImages(tag).then(newImages => this.setState({
       images: newImages,
@@ -72,9 +63,6 @@ class Gallery extends React.Component {
 
   componentDidMount() {
     this.getNewTagImages(this.props.tag);
-    this.setState({
-      galleryWidth: document.body.clientWidth
-    });
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -155,7 +143,6 @@ class Gallery extends React.Component {
             return (<Image
               key={'image-' + dto.id}
               url={this.urlFromDto(dto)}
-              galleryWidth={this.state.galleryWidth}
               onDelete={this.handleDelete.bind(this, index)}
               onExpand={this.handleExpand.bind(this, index)}
               onRotate={this.handleRotate.bind(this)}
