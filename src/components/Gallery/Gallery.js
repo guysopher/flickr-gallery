@@ -112,32 +112,37 @@ class Gallery extends React.Component {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
-  render() {
+  getLightBox() {
     const currentIndex = this.state.imageIndex;
     const imagesLength = this.state.images.length;
     const nextIndex = (currentIndex + imagesLength + 1) % imagesLength;
     const prevIndex = (currentIndex + imagesLength - 1) % imagesLength;
 
+    return (<Lightbox
+      mainSrc={this.urlFromDto(this.state.images[currentIndex])}
+      onCloseRequest={() => this.setState({ isLightBoxOpen: false })}
+      nextSrc={this.urlFromDto(this.state.images[nextIndex])}
+      prevSrc={this.urlFromDto(this.state.images[prevIndex])}
+      onMovePrevRequest={() =>
+        this.setState({
+          imageIndex: prevIndex
+        })
+      }
+      onMoveNextRequest={() =>
+        this.setState({
+          imageIndex: nextIndex
+        })
+      }
+      enableZoom={false}
+    />)
+  }
+
+  render() {
     return (
       <div>
-        {this.state.isLightBoxOpen && (<Lightbox
-          mainSrc={this.urlFromDto(this.state.images[currentIndex])}
-          onCloseRequest={() => this.setState({ isLightBoxOpen: false })}
-          nextSrc={this.urlFromDto(this.state.images[nextIndex])}
-          prevSrc={this.urlFromDto(this.state.images[prevIndex])}
-          onMovePrevRequest={() =>
-            this.setState({
-              imageIndex: prevIndex
-            })
-          }
-          onMoveNextRequest={() =>
-            this.setState({
-              imageIndex: nextIndex
-            })
-          }
-          enableZoom={false}
-        />)}
-        
+        <div>
+          {this.state.isLightBoxOpen && this.getLightBox()}
+        </div>
         <div className="gallery-root">
           {this.state.images.map((dto, index) => {
             return (<Image
