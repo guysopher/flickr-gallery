@@ -41,17 +41,22 @@ class Image extends React.Component {
     }
 
     return (
-      <div className="image-root">
+      <div className="image-root"
+            // width={this.state.size + 'px'}
+            // height={this.state.size + 'px'}
+      >
         <img
-        {...rotationAttribute}
-        style={{
-          backgroundImage: `url(${this.state.url})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }}
-        width={this.state.size + 'px'}
-        height={this.state.size + 'px'}
+          {...rotationAttribute}
+          style={{
+            // width: '100%',
+            // height: '100%',
+            backgroundImage: `url(${this.state.url})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
+          }}
+          // width={this.state.size + 'px'}
+          // height={this.state.size + 'px'}
         />
         <div>
             <FontAwesome onClick={this.props.onRotate} className="image-icon" name="sync-alt" title="rotate"/>
