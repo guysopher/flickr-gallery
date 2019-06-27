@@ -183,7 +183,8 @@ class Gallery extends React.Component {
     let gallery = this.state.images.slice();
 
     // remove the dragged and insert it again in the dropped inde
-    gallery.splice(droppedIndex, 0, draggedImage);
+    gallery.splice(draggedId, 1);
+    // gallery.splice(droppedIndex, 0, draggedImage);
     
     // update the new gallery
     this.setState({images: gallery})

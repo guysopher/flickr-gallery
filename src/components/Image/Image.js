@@ -53,8 +53,6 @@ class Image extends React.Component {
     
     // pass the id's to the parent (Gallery) in order to update the array
     this.props.handleDrag(draggedId, this.props.dto.id);
-    
-    this.props.handleDragMessage();
    }
 
   render() {
