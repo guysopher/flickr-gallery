@@ -28,7 +28,12 @@ class Image extends React.Component {
     }
 
     return (
-      <div className="image-root">
+      <div className="image-root"
+        onDragStart={this.props.onDragStart}
+        onDragOver={this.props.onDragOver}
+        onDrop={this.props.onDrop}
+        draggable={true}
+      >
         <img
           {...rotationAttribute}
           style={{

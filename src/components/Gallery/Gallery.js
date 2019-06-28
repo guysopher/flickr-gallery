@@ -31,6 +31,12 @@ class Gallery extends React.Component {
   }
 
   loadMoreImages = () => {
+    const MAX_PAGES = 40;
+    
+    if(MAX_PAGES == this.state.page){
+      return;
+    }
+
     this.setState(prevState => ({
       isLoading: true,
       page: prevState.page + 1
@@ -74,7 +80,7 @@ class Gallery extends React.Component {
     this.getNewTagImages(props.tag);
   }
 
-  handleRotate = (e) => {
+  handleRotate = e => {
     const imgElement = e.target.parentElement.parentElement.firstChild;
     let rotationAngle = (parseInt(imgElement.getAttribute('rotate')) + 90) % 360;
 
@@ -106,6 +112,29 @@ class Gallery extends React.Component {
     if (shouldLoadMoreImages) {
         this.loadMoreImages()
     }
+  }
+
+  handleDragStart = (index, e) => {
+    e.dataTransfer.setData('imageIndex', index);
+  }
+
+  handleDragOver = e => {
+    e.preventDefault();
+  }
+
+  handleDrop = (index, e) => {
+    const imageIndex = e.dataTransfer.getData('imageIndex');
+
+    const images = Object.assign([], this.state.images);
+    this.swapImages(images, imageIndex, index);
+
+    this.setState({images: images});
+  }
+
+  swapImages(images, imageIndex, index) {
+    const tempImage = images[imageIndex];
+    images[imageIndex] = images[index];
+    images[index] = tempImage;
   }
 
   urlFromDto(dto) {
@@ -146,11 +175,14 @@ class Gallery extends React.Component {
         <div className="gallery-root">
           {this.state.images.map((dto, index) => {
             return (<Image
-              key={'image-' + dto.id}
+              key={'image-' + this.state.page + '-' + dto.id}
               url={this.urlFromDto(dto)}
               onDelete={this.handleDelete.bind(this, index)}
               onExpand={this.handleExpand.bind(this, index)}
-              onRotate={this.handleRotate.bind(this)}
+              onRotate={this.handleRotate}
+              onDragStart={this.handleDragStart.bind(this, index)}
+              onDragOver={this.handleDragOver}
+              onDrop={this.handleDrop.bind(this, index)}
             />);
           })}
         </div>
