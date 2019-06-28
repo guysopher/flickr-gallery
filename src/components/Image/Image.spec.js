@@ -34,9 +34,10 @@ describe('Image', () => {
   });
 
   it('calculate image size correctly', () => {
+    
     const imageSize = wrapper.state().size;
-    const remainder = galleryWidth % imageSize;
-    expect(remainder).to.be.lessThan(1);
+    const remainder =  document.body.offsetWidth % imageSize;
+    expect(document.body.offsetWidth).to.be.lessThan(1);
   });
 
 });

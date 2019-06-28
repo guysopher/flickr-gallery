@@ -173,8 +173,8 @@ class Gallery extends React.Component {
   }
   // ========= handle drag image ==============
   handleDrag(draggedId, droppedId) {
-    // get the dragged image and it's index from child component
-    let draggedImage = this.state.images.find(dto => dto.id === draggedId)
+    // get the dragged image index
+    let draggedIndex = this.state.images.findIndex(dto => dto.id === draggedId);
     
     // get the dropped image's index
     let droppedIndex = this.state.images.findIndex(dto => dto.id === droppedId);
@@ -182,14 +182,13 @@ class Gallery extends React.Component {
     // copy the original gallery
     let gallery = this.state.images.slice();
 
-    // remove the dragged and insert it again in the dropped inde
-    gallery.splice(draggedId, 1);
-    // gallery.splice(droppedIndex, 0, draggedImage);
+    // remove the dragged and insert it again in the dropped index position
+    gallery.splice(draggedIndex, 1);
+    gallery.splice(droppedIndex, 0, this.state.images[draggedIndex]);
     
     // update the new gallery
     this.setState({images: gallery})
    }
-  
   render() {
     return (
       <div>
