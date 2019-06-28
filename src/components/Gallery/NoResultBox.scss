@@ -1,0 +1,18 @@
+.no-result-root {
+    text-align: center;
+    background-color: #215374;
+
+    > p {
+      text-align: center;
+      color: #111;
+      font-family: 'Helvetica Neue', sans-serif;
+      padding: 10%;
+      font-size: 32px;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      > span {
+        font-size: 24px;
+        color: #999;
+      }
+    }
+  }

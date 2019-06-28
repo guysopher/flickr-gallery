@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
+import NoResultBox from './NoResultBox.js';
 import Lightbox from 'react-image-lightbox';
  
 class Gallery extends React.Component {
@@ -18,16 +19,27 @@ class Gallery extends React.Component {
       imageIndex: 0,
       page: 1,
       isLoading: false,
-      tag: this.props.tag
+      tag: this.props.tag,
+      HasNoResults: false
     };
   }
   
   getNewTagImages(tag) {
-    this.getImages(tag).then(newImages => this.setState({
-      images: newImages,
-      page: 1,
-      tag: tag
-    }));
+    this.getImages(tag).then(newImages => {
+      if (null == newImages) {
+        this.setState({
+          HasNoResults: true
+        })
+        return;
+      }
+
+      this.setState({
+        images: newImages,
+        page: 1,
+        tag: tag,
+        HasNoResults: false
+      })
+    })
   }
 
   loadMoreImages = () => {
@@ -38,9 +50,9 @@ class Gallery extends React.Component {
     }
 
     this.setState(prevState => ({
-      isLoading: true,
-      page: prevState.page + 1
-    }), () => {
+        isLoading: true,
+        page: prevState.page + 1
+      }), () => {
         this.getImages(this.state.tag).then(newImages => this.setState(prevState => ({
           images: [...prevState.images, ...newImages],
           isLoading: false
@@ -64,6 +76,9 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) { return res.photos.photo; }
+        else {
+          return null;
+        }
       });
   }
 
@@ -102,7 +117,7 @@ class Gallery extends React.Component {
   }
 
   handleScroll = () => {
-    if(this.state.isLoading){
+    if(this.state.isLoading) {
       return;
     }
 
@@ -166,28 +181,31 @@ class Gallery extends React.Component {
     />)
   }
 
-  render() {
+  getGallery() {
     return (
       <div>
         <div>
           {this.state.isLightBoxOpen && this.getLightBox()}
         </div>
         <div className="gallery-root">
-          {this.state.images.map((dto, index) => {
-            return (<Image
-              key={'image-' + this.state.page + '-' + dto.id}
-              url={this.urlFromDto(dto)}
-              onDelete={this.handleDelete.bind(this, index)}
-              onExpand={this.handleExpand.bind(this, index)}
-              onRotate={this.handleRotate}
-              onDragStart={this.handleDragStart.bind(this, index)}
-              onDragOver={this.handleDragOver}
-              onDrop={this.handleDrop.bind(this, index)}
-            />);
-          })}
-        </div>
+        {this.state.images.map((dto, index) => {
+          return (<Image
+            key={'image-' + this.state.page + '-' + dto.id}
+            url={this.urlFromDto(dto)}
+            onDelete={this.handleDelete.bind(this, index)}
+            onExpand={this.handleExpand.bind(this, index)}
+            onRotate={this.handleRotate}
+            onDragStart={this.handleDragStart.bind(this, index)}
+            onDragOver={this.handleDragOver}
+            onDrop={this.handleDrop.bind(this, index)}
+          />);
+        })}
       </div>
-    );
+    </div>);
+  }
+
+  render() {
+    return (this.state.HasNoResults) ? <NoResultBox/> : this.getGallery();
   }
 }
 
