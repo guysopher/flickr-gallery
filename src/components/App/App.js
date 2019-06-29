@@ -13,15 +13,12 @@ class App extends React.Component {
       tag: 'art'
     };
   }
-
+  
   handleInput = (e) => {
     const input = e.target.value;
     clearTimeout(this.timeout);
-
+    
     if(input === '') {
-      this.timeout = setTimeout(() => {
-        this.setState({tag: 'art'});
-      }, 500);
       return;
     }
 
@@ -37,7 +34,6 @@ class App extends React.Component {
 
     if(keyCode === enterKeyCode) {
       if(input === '') {
-        this.setState({tag: 'art'});
         return;
       }
 
