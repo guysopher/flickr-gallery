@@ -18,6 +18,13 @@ class App extends React.Component {
     const input = e.target.value;
     clearTimeout(this.timeout);
 
+    if(input === '') {
+      this.timeout = setTimeout(() => {
+        this.setState({tag: 'art'});
+      }, 500);
+      return;
+    }
+
     this.timeout = setTimeout(() => {
       this.setState({tag: input});
     }, 500);
@@ -26,9 +33,15 @@ class App extends React.Component {
   handleKeyPress = (e) => {
     const keyCode = e.keyCode || e.which;
     const enterKeyCode = 13;
+    const input = e.target.value;
 
     if(keyCode === enterKeyCode) {
-      this.setState({tag: e.target.value});
+      if(input === '') {
+        this.setState({tag: 'art'});
+        return;
+      }
+
+      this.setState({tag: input});
     }
   }
 
@@ -38,6 +51,7 @@ class App extends React.Component {
         <div className="app-header">
           <h2>Flickr Gallery</h2>
           <input className="app-input"
+            placeholder="enter a search word"
             onChange={this.handleInput}
             onKeyPress={this.handleKeyPress}
           />
