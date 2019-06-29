@@ -4,10 +4,6 @@ import FontAwesome from 'react-fontawesome';
 import './Image.scss';
 
 class Image extends React.Component {
-  static propTypes = {
-    galleryWidth: PropTypes.number
-  };
-
   constructor(props) {
     super(props);
     this.state = {

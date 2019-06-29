@@ -3,26 +3,23 @@ import './App.scss';
 import Gallery from '../Gallery';
 
 class App extends React.Component {
-  static propTypes = {
-  };
-
   constructor() {
     super();
-    this.timeout = null;
+    this.typingTimeout = null;
     this.state = {
       tag: 'art'
     };
   }
   
   handleInput = (e) => {
+    clearTimeout(this.typingTimeout);
     const input = e.target.value;
-    clearTimeout(this.timeout);
     
     if(input === '') {
       return;
     }
-
-    this.timeout = setTimeout(() => {
+    
+    this.typingTimeout = setTimeout(() => {
       this.setState({tag: input});
     }, 500);
   }
@@ -47,7 +44,9 @@ class App extends React.Component {
         <div className="app-header">
           <h2>Flickr Gallery</h2>
           <input className="app-input"
-            placeholder="enter a search word"
+            type={'text'}
+            defaultValue={this.state.tag}
+            placeholder={'enter a search word'}
             onChange={this.handleInput}
             onKeyPress={this.handleKeyPress}
           />

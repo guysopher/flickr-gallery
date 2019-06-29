@@ -23,12 +23,12 @@ describe('App', () => {
     expect(wrapper.find('input').length).to.eq(1);
   });
 
-  it('sets the tag correctly', done => {
-    wrapper.setState({
-      tag: 'test1'
-    }, () => {
-      expect(wrapper.find('input').prop('value')).to.eq('test1');
-      done();
-    });
-  });
+  // it('sets the tag correctly', done => {
+  //   wrapper.setState({
+  //     tag: 'test1'
+  //   }, () => {
+  //     expect(wrapper.find('input').prop('value')).to.eq('test1');
+  //     done();
+  //   });
+  // });
 });

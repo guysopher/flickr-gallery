@@ -184,9 +184,6 @@ class Gallery extends React.Component {
   getGallery() {
     return (
       <div>
-        <div>
-          {this.state.isLightBoxOpen && this.getLightBox()}
-        </div>
         <div className="gallery-root">
         {this.state.images.map((dto, index) => {
           return (<Image
@@ -200,6 +197,9 @@ class Gallery extends React.Component {
             onDrop={this.handleDrop.bind(this, index)}
           />);
         })}
+      </div>
+      <div>
+        {this.state.isLightBoxOpen && this.getLightBox()}
       </div>
     </div>);
   }
