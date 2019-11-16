@@ -17,6 +17,11 @@ class Image extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    if (this.props.dto.id !== props.dto.id) {
+     this.setState({angle: 0})
+    }
+   } 
   // Deletes the image by the given index
   deleteImage() {
     this.props.onDelete ? this.props.onDelete(this.props.imageIndex) : null
