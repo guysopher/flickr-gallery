@@ -1,54 +1,66 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
+import {urlFromDto} from '../../utils/dtoUtils'
+
 import './Image.scss';
 
 class Image extends React.Component {
-  static propTypes = {
-    dto: PropTypes.object,
-    galleryWidth: PropTypes.number
-  };
-
   constructor(props) {
     super(props);
-    this.calcImageSize = this.calcImageSize.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
+    this.rotateImage = this.rotateImage.bind(this);
+    this.expandImage = this.expandImage.bind(this);
+    this.allowDrop = this.allowDrop.bind(this);
+    this.onDrag = this.onDrag.bind(this)
     this.state = {
-      size: 200
+      angle: 0
     };
   }
 
-  calcImageSize() {
-    const {galleryWidth} = this.props;
-    const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth / imagesPerRow);
-    this.setState({
-      size
-    });
+  // Deletes the image by the given index
+  deleteImage() {
+    this.props.onDelete ? this.props.onDelete(this.props.imageIndex) : null
   }
 
-  componentDidMount() {
-    this.calcImageSize();
+  // Rotates the image by 90 degree
+  rotateImage() {
+    const newAngle = this.state.angle + 90
+    this.setState({angle: newAngle === 360 ? 0 : newAngle })
   }
 
-  urlFromDto(dto) {
-    return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
+  // Expand the image to a larger view
+  expandImage() {
+    this.props.onImageSelected ? this.props.onImageSelected(this.props.imageIndex, this.state.angle) : null
+  }
+
+  allowDrop(e) {
+    e.preventDefault();
+  }
+
+  // Drag the image by its index
+  onDrag () {
+    this.props.onDragImage ? this.props.onDragImage(this.props.imageIndex) : null
   }
 
   render() {
     return (
       <div
-        className="image-root"
-        style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
-          width: this.state.size + 'px',
-          height: this.state.size + 'px'
-        }}
-        >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+      draggable="true"
+      id={this.props.imageIndex}
+      className="image-root"
+      style={{
+        backgroundImage: `url(${urlFromDto(this.props.dto)})`,
+        transform: `rotate(${this.state.angle}deg)`
+      }}
+      onDrop={this.props.onDropImage}
+      onDragOver={this.allowDrop}
+      onDragStart={this.onDrag}>
+        <div style={{
+          transform: `rotate(-${this.state.angle}deg)`
+        }}>
+          <FontAwesome className="image-icon" name="sync-alt" title="rotate" onClick={this.rotateImage}/>
+          <FontAwesome className="image-icon" name="trash-alt" title="delete" onClick={this.deleteImage}/>
+          <FontAwesome className="image-icon" name="expand" title="expand" onClick={this.expandImage}/>
         </div>
       </div>
     );
