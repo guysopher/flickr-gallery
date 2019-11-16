@@ -1,4 +1,17 @@
 .gallery-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  object-fit: cover;
+  align-content: flex-end;
+  width: 100%;
+  resize: both;
+  margin-bottom: -100%;
+  padding-bottom: 100%;
+  overflow-x:hidden;
   text-align: center;
 }
 

@@ -13,42 +13,73 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: '20%',
+      rotation: 0,
+      display: "inline-block"
     };
+
+    this.rotate = this.rotate.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   calcImageSize() {
     const {galleryWidth} = this.props;
-    const targetSize = 200;
-    const imagesPerRow = Math.round(galleryWidth / targetSize);
-    const size = (galleryWidth / imagesPerRow);
+    const size = galleryWidth * 0.12;
     this.setState({
       size
     });
   }
 
   componentDidMount() {
+    window.addEventListener("resize", this.calcImageSize);
+  }
+
+  componentWillMount() {
     this.calcImageSize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.calcImageSize);
   }
 
   urlFromDto(dto) {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+  rotate(){
+    let newRotation = this.state.rotation + 90;
+
+    this.setState({
+      rotation: newRotation,
+    })
+  }
+
+  delete() {
+    this.setState({
+      display: "none"
+    })
+  }
+
   render() {
+    const { rotation } =  this.state;
     return (
       <div
         className="image-root"
         style={{
+          display: `${this.state.display}`,
+          transform: `rotate(${rotation}deg)`,
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+           height: this.state.size + 'px'
         }}
         >
-        <div>
-          <FontAwesome className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
-          <FontAwesome className="image-icon" name="expand" title="expand"/>
+        <div
+          style={{
+            transform: `rotate(${rotation * -1}deg)`}}
+          >
+          <FontAwesome onClick={this.rotate} className="image-icon" name="sync-alt" title="rotate"/>
+          <FontAwesome onClick={this.delete} className="image-icon" name="trash-alt" title="delete"/>
+          <a href={this.urlFromDto(this.props.dto)} data-lightbox="mygallery"><FontAwesome className="image-icon" name="expand" title="expand"/></a>
         </div>
       </div>
     );
