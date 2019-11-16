@@ -1,7 +1,9 @@
 .gallery-root {
-  text-align: center;
+  background-color: #222;
 }
-
+* {
+  box-sizing: inherit;
+}
 .gallery-header {
   background-color: #222;
   padding: 10px;

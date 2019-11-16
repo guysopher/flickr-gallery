@@ -1,0 +1,58 @@
+
+
+#backgroundLarge {
+  position: fixed;
+  background: black;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  z-index: 98;
+  // text-align: center;
+  
+}
+#img {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+
+.button {
+  color: #ccc;
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  position: fixed;
+  background-color: transparent;
+  z-index: 99;
+}
+
+.button:hover {
+    color: white;
+    border-color: white;
+}
+.button:focus {
+  outline: 0px;
+}
+#closebtn {
+  right: 10px;
+  top: 10px;
+  border: transparent;
+}
+
+#button-left {
+  font-size: 130%;
+  top: 50%;
+  left: 10px;
+}
+#button-right {
+  font-size: 130%;
+    top: 50%;
+    right: 10px;
+  }
